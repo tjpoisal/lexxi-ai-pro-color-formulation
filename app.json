@@ -1,0 +1,49 @@
+{
+  "name": "Lexxi Color Try-On",
+  "displayName": "Lexxi",
+  "version": "1.0.0",
+  "expo": {
+    "name": "Lexxi Color Try-On",
+    "slug": "lexxi-color-tryon",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#000000"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.lexxi.colortryon",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Lexxi needs camera access to show you how different hair colors look on you.",
+        "NSPhotoLibraryUsageDescription": "Lexxi needs photo library access to save your before and after photos.",
+        "NSPhotoLibraryAddUsageDescription": "Lexxi needs permission to save your colored hair photos."
+      },
+      "buildNumber": "1"
+    },
+    "android": {
+      "package": "com.lexxi.colortryon",
+      "versionCode": 1,
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ],
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#000000"
+      }
+    },
+    "plugins": [
+      [
+        "react-native-vision-camera",
+        {
+          "cameraPermissionText": "Lexxi needs camera access to show you how different hair colors look on you."
+        }
+      ]
+    ]
+  }
+}

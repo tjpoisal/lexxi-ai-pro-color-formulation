@@ -1,0 +1,46 @@
+{
+  "name": "lexxi-color-tryon",
+  "version": "1.0.0",
+  "description": "Lexxi AR Hair Color Try-On - Standalone iOS & Android App",
+  "main": "index.js",
+  "scripts": {
+    "start": "react-native start",
+    "ios": "react-native run-ios",
+    "android": "react-native run-android",
+    "build:ios": "cd ios && xcodebuild -workspace LexxiColorTryOn.xcworkspace -scheme LexxiColorTryOn -configuration Release archive",
+    "build:android": "cd android && ./gradlew assembleRelease",
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "react": "18.2.0",
+    "react-native": "0.73.2",
+    "react-native-vision-camera": "^3.9.0",
+    "@mediapipe/tasks-vision": "^0.10.8",
+    "react-native-skia": "^1.0.0",
+    "react-native-reanimated": "^3.6.1",
+    "@react-native-async-storage/async-storage": "^1.21.0",
+    "react-native-fs": "^2.20.0",
+    "axios": "^1.6.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.7",
+    "@babel/preset-env": "^7.23.8",
+    "@babel/runtime": "^7.23.8",
+    "@react-native/babel-preset": "^0.73.19",
+    "@react-native/eslint-config": "^0.73.2",
+    "@react-native/metro-config": "^0.73.3",
+    "@react-native/typescript-config": "^0.73.1",
+    "@types/react": "^18.2.48",
+    "@types/react-native": "^0.73.0",
+    "babel-jest": "^29.7.0",
+    "eslint": "^8.56.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.1.1",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18",
+    "npm": ">=9"
+  }
+}
