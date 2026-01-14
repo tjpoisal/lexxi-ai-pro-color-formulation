@@ -1,12 +1,19 @@
 // Device integrity helpers
-// Placeholder hooks for jailbreak/root detection and integrity checks.
-// Implement platform-specific checks or integrate a library such as
-// react-native-root-detection in the future.
+// Uses react-native-root-detection to detect rooted/jailbroken devices
+// and provides a hook to gate high-risk flows.
+
+import {isRooted, isDebuggable, isOnExternalStorage} from 'react-native-root-detection';
 
 export async function isDeviceCompromised(): Promise<boolean> {
-  // TODO: Integrate actual root/jailbreak detection.
-  // For now, always return false.
-  return false;
+  try {
+    const rooted = isRooted();
+    const debuggable = isDebuggable();
+    const external = isOnExternalStorage();
+    return rooted || debuggable || external;
+  } catch (error) {
+    console.warn('Device integrity check failed', error);
+    return false;
+  }
 }
 
 export async function assertSafeEnvironment(): Promise<void> {

@@ -1,41 +1,41 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   StyleSheet,
   TouchableOpacity,
   Text,
-  Image,
   ScrollView,
   Dimensions,
   Alert,
 } from 'react-native';
 import {Camera, useCameraDevice, useFrameProcessor} from 'react-native-vision-camera';
-import {Skia, Canvas, Group, Image as SkiaImage, Paint} from '@shopify/react-native-skia';
+import {Canvas, Group, Image as SkiaImage, Paint} from '@shopify/react-native-skia';
 import {runAsync, useSharedValue} from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {PROFESSIONAL_COLORS, type HairColor} from './src/data/colors';
+import {
+  fetchColorDetail,
+  fetchConversions,
+  type HairColorDetail,
+  type ConversionSuggestion,
+} from './src/api/haircolor';
 
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
 
-// Professional hair color palette - 400+ brand colors
-const HAIR_COLORS = [
-  {id: 'ash_blonde', name: 'Ash Blonde', hex: '#E6E1D6', brand: 'Wella'},
-  {id: 'platinum', name: 'Platinum', hex: '#F5F5DC', brand: 'Wella'},
-  {id: 'warm_caramel', name: 'Warm Caramel', hex: '#C68E6F', brand: 'Redken'},
-  {id: 'chocolate', name: 'Chocolate Brown', hex: '#4A2C2A', brand: "L'Oréal"},
-  {id: 'copper_red', name: 'Copper Red', hex: '#B87333', brand: 'Schwarzkopf'},
-  {id: 'violet', name: 'Violet Purple', hex: '#8B00FF', brand: 'Pravana'},
-  {id: 'rose_gold', name: 'Rose Gold', hex: '#B76E79', brand: 'Pulp Riot'},
-  {id: 'burgundy', name: 'Burgundy', hex: '#800020', brand: 'Matrix'},
-  {id: 'honey_blonde', name: 'Honey Blonde', hex: '#E5C100', brand: 'Redken'},
-  {id: 'jet_black', name: 'Jet Black', hex: '#0C0C0C', brand: 'Pravana'},
-];
+const ALLERGEN_FILTERS = ['PPD', 'PTDS', 'resorcinol', 'fragrance'];
+
+const HAIR_COLORS: HairColor[] = PROFESSIONAL_COLORS;
 
 export default function LexxiColorTryOnApp() {
-  const [selectedColor, setSelectedColor] = useState(HAIR_COLORS[0]);
+  const [selectedColor, setSelectedColor] = useState<HairColor>(HAIR_COLORS[0]);
   const [hasPermission, setHasPermission] = useState(false);
-  const [hairMask, setHairMask] = useState(null);
-  const [beforePhoto, setBeforePhoto] = useState(null);
+  const [hairMask, setHairMask] = useState<unknown | null>(null);
+  const [beforePhoto, setBeforePhoto] = useState<unknown | null>(null);
   const [showComparison, setShowComparison] = useState(false);
+  const [colorDetail, setColorDetail] = useState<HairColorDetail | null>(null);
+  const [conversions, setConversions] = useState<ConversionSuggestion[]>([]);
+  const [openSection, setOpenSection] = useState<'technical' | 'safety' | 'conversions' | null>('technical');
+  const [hiddenAllergens, setHiddenAllergens] = useState<string[]>([]);
 
   const device = useCameraDevice('front');
   const hairMaskImage = useSharedValue(null);
@@ -44,6 +44,21 @@ export default function LexxiColorTryOnApp() {
     requestCameraPermission();
     loadSavedColor();
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const detail = await fetchColorDetail(selectedColor.id);
+      const conv = await fetchConversions(selectedColor.id);
+      if (!cancelled) {
+        setColorDetail(detail);
+        setConversions(conv);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedColor.id]);
 
   const requestCameraPermission = async () => {
     const permission = await Camera.requestCameraPermission();
@@ -58,17 +73,17 @@ export default function LexxiColorTryOnApp() {
     }
   };
 
-  const saveColor = async (colorId) => {
+  const saveColor = async (colorId: string) => {
     await AsyncStorage.setItem('lastUsedColor', colorId);
   };
 
-  const handleColorSelect = (color) => {
+  const handleColorSelect = (color: HairColor) => {
     setSelectedColor(color);
     saveColor(color.id);
   };
 
   // MediaPipe Hair Segmentation Frame Processor
-  const frameProcessor = useFrameProcessor((frame) => {
+  const frameProcessor = useFrameProcessor(frame => {
     'worklet';
     runAsync(frame, () => {
       'worklet';
@@ -92,6 +107,19 @@ export default function LexxiColorTryOnApp() {
     }
     setShowComparison(true);
   };
+
+  const toggleAllergen = (allergen: string) => {
+    setHiddenAllergens(prev =>
+      prev.includes(allergen)
+        ? prev.filter(a => a !== allergen)
+        : [...prev, allergen],
+    );
+  };
+
+  const visibleColors = HAIR_COLORS.filter(color => {
+    if (!color.allergens || color.allergens.length === 0) return true;
+    return !color.allergens.some(a => hiddenAllergens.includes(a));
+  });
 
   if (!hasPermission) {
     return (
@@ -143,19 +171,128 @@ export default function LexxiColorTryOnApp() {
         <Text style={styles.subtitle}>AR Color Try-On</Text>
       </View>
 
-      {/* Bottom UI - Color Picker */}
+      {/* Bottom UI - Color Picker + Metadata */}
       <View style={styles.bottomContainer}>
         <View style={styles.selectedColorInfo}>
           <Text style={styles.colorName}>{selectedColor.name}</Text>
-          <Text style={styles.brandName}>{selectedColor.brand}</Text>
+          <Text style={styles.brandName}>
+            {selectedColor.brand}
+            {selectedColor.line ? ` • ${selectedColor.line}` : ''}
+          </Text>
+        </View>
+
+        {/* Metadata Tabs */}
+        <View style={styles.tabsRow}>
+          <TouchableOpacity
+            style={[styles.tabButton, openSection === 'technical' && styles.tabButtonActive]}
+            onPress={() => setOpenSection(openSection === 'technical' ? null : 'technical')}>
+            <Text
+              style={[styles.tabButtonText, openSection === 'technical' && styles.tabButtonTextActive]}>
+              Technical / Formula
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.tabButton, openSection === 'safety' && styles.tabButtonActive]}
+            onPress={() => setOpenSection(openSection === 'safety' ? null : 'safety')}>
+            <Text
+              style={[styles.tabButtonText, openSection === 'safety' && styles.tabButtonTextActive]}>
+              Safety & Allergens
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.tabButton, openSection === 'conversions' && styles.tabButtonActive]}
+            onPress={() => setOpenSection(openSection === 'conversions' ? null : 'conversions')}>
+            <Text
+              style={[styles.tabButtonText, openSection === 'conversions' && styles.tabButtonTextActive]}>
+              Conversions
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {openSection && (
+          <View style={styles.tabContent}>
+            {openSection === 'technical' && (
+              <>
+                {colorDetail && (
+                  <Text style={styles.tabText}>
+                    {colorDetail.level && `Level: ${colorDetail.level} `}
+                    {colorDetail.tone && `Tone: ${colorDetail.tone}`}
+                  </Text>
+                )}
+                {selectedColor.usageNotes && (
+                  <Text style={styles.tabText}>{selectedColor.usageNotes}</Text>
+                )}
+                {colorDetail?.developerGuidance && (
+                  <Text style={styles.tabText}>{colorDetail.developerGuidance}</Text>
+                )}
+              </>
+            )}
+            {openSection === 'safety' && (
+              <>
+                {selectedColor.ingredientsSummary && (
+                  <Text style={styles.tabText}>{selectedColor.ingredientsSummary}</Text>
+                )}
+                <Text style={styles.tabText}>
+                  Allergens:{' '}
+                  {selectedColor.allergens && selectedColor.allergens.length
+                    ? selectedColor.allergens.join(', ')
+                    : 'None listed'}
+                </Text>
+                {selectedColor.msdsUrl && (
+                  <Text style={styles.tabText} numberOfLines={1}>
+                    MSDS/SDS: {selectedColor.msdsUrl}
+                  </Text>
+                )}
+              </>
+            )}
+            {openSection === 'conversions' && (
+              <>
+                {conversions.length === 0 ? (
+                  <Text style={styles.tabText}>No conversions available for this shade.</Text>
+                ) : (
+                  conversions.map(conv => {
+                    const target = HAIR_COLORS.find(c => c.id === conv.targetId);
+                    if (!target) return null;
+                    return (
+                      <Text key={conv.targetId} style={styles.tabText}>
+                        → {target.brand} {target.name} ({target.line ?? ''})
+                      </Text>
+                    );
+                  })
+                )}
+              </>
+            )}
+          </View>
+        )}
+
+        {/* Allergen Filters */}
+        <View style={styles.allergenRow}>
+          <Text style={styles.allergenLabel}>Hide allergens:</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View style={styles.allergenChipsRow}>
+              {ALLERGEN_FILTERS.map(allergen => {
+                const active = hiddenAllergens.includes(allergen);
+                return (
+                  <TouchableOpacity
+                    key={allergen}
+                    style={[styles.allergenChip, active && styles.allergenChipActive]}
+                    onPress={() => toggleAllergen(allergen)}>
+                    <Text
+                      style={[styles.allergenChipText, active && styles.allergenChipTextActive]}>
+                      {allergen}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </ScrollView>
         </View>
 
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.colorPicker}
-        >
-          {HAIR_COLORS.map((color) => (
+          contentContainerStyle={styles.colorPicker}>
+          {visibleColors.map(color => (
             <TouchableOpacity
               key={color.id}
               style={[
@@ -164,8 +301,7 @@ export default function LexxiColorTryOnApp() {
                 selectedColor.id === color.id && styles.selectedSwatch,
               ]}
               onPress={() => handleColorSelect(color)}
-              activeOpacity={0.8}
-            >
+              activeOpacity={0.8}>
               {selectedColor.id === color.id && (
                 <View style={styles.checkmark}>
                   <Text style={styles.checkmarkText}>✓</Text>
@@ -272,7 +408,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    backdropFilter: 'blur(10px)',
     paddingBottom: 40,
     paddingTop: 20,
     paddingHorizontal: 20,
@@ -293,7 +428,6 @@ const styles = StyleSheet.create({
   },
   colorPicker: {
     flexDirection: 'row',
-    gap: 12,
     paddingHorizontal: 4,
   },
   colorSwatch: {
@@ -401,5 +535,68 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 4,
+  },
+  tabsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  tabButton: {
+    flex: 1,
+    paddingVertical: 6,
+    marginHorizontal: 2,
+    borderRadius: 8,
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+  },
+  tabButtonActive: {
+    backgroundColor: '#FFD700',
+  },
+  tabButtonText: {
+    textAlign: 'center',
+    fontSize: 12,
+    color: '#fff',
+    fontWeight: '600',
+  },
+  tabButtonTextActive: {
+    color: '#000',
+  },
+  tabContent: {
+    marginBottom: 10,
+  },
+  tabText: {
+    color: '#fff',
+    fontSize: 12,
+    marginBottom: 4,
+  },
+  allergenRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  allergenLabel: {
+    color: '#fff',
+    fontSize: 12,
+    marginRight: 8,
+  },
+  allergenChipsRow: {
+    flexDirection: 'row',
+  },
+  allergenChip: {
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 999,
+    backgroundColor: 'rgba(255, 255, 255, 0.12)',
+    marginRight: 6,
+  },
+  allergenChipActive: {
+    backgroundColor: '#FF6B6B',
+  },
+  allergenChipText: {
+    color: '#fff',
+    fontSize: 11,
+  },
+  allergenChipTextActive: {
+    color: '#000',
+    fontWeight: '700',
   },
 });

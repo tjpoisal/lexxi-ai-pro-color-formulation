@@ -23,12 +23,40 @@ export interface AllergenInfo {
   notes?: string;
 }
 
-// Placeholder in-memory mocks. Replace with real HTTPS requests when
-// a backend service is available.
+// Placeholder in-memory mocks and optional backend integration.
+// When API_BASE_URL is configured, functions will call a real HTTPS
+// backend with auth headers; otherwise they fall back to local data.
 
 import {PROFESSIONAL_COLORS} from '../data/colors';
+import {API_BASE_URL, hasBackend} from '../config/api';
+import {getSecureItem} from '../security/secureStorage';
+
+async function authorizedFetch(path: string, init: RequestInit = {}): Promise<Response> {
+  const url = `${API_BASE_URL}${path}`;
+  const token = await getSecureItem('authToken');
+  const headers: Record<string, string> = {
+    ...(init.headers as Record<string, string> | undefined),
+    'Content-Type': 'application/json',
+  };
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  return fetch(url, {...init, headers});
+}
 
 export async function fetchColorDetail(id: string): Promise<HairColorDetail | null> {
+  if (hasBackend()) {
+    try {
+      const resp = await authorizedFetch(`/haircolors/${encodeURIComponent(id)}`);
+      if (resp.ok) {
+        return (await resp.json()) as HairColorDetail;
+      }
+      console.warn('fetchColorDetail backend error', resp.status);
+    } catch (error) {
+      console.warn('fetchColorDetail backend request failed', error);
+    }
+  }
+
   const base = PROFESSIONAL_COLORS.find(c => c.id === id);
   if (!base) return null;
 
@@ -42,6 +70,18 @@ export async function fetchColorDetail(id: string): Promise<HairColorDetail | nu
 }
 
 export async function fetchConversions(sourceId: string): Promise<ConversionSuggestion[]> {
+  if (hasBackend()) {
+    try {
+      const resp = await authorizedFetch(`/haircolors/${encodeURIComponent(sourceId)}/conversions`);
+      if (resp.ok) {
+        return (await resp.json()) as ConversionSuggestion[];
+      }
+      console.warn('fetchConversions backend error', resp.status);
+    } catch (error) {
+      console.warn('fetchConversions backend request failed', error);
+    }
+  }
+
   const source = PROFESSIONAL_COLORS.find(c => c.id === sourceId);
   if (!source) return [];
 
@@ -58,6 +98,18 @@ export async function fetchConversions(sourceId: string): Promise<ConversionSugg
 }
 
 export async function searchAllergens(allergen: string): Promise<AllergenInfo | null> {
+  if (hasBackend()) {
+    try {
+      const resp = await authorizedFetch(`/allergens/${encodeURIComponent(allergen)}`);
+      if (resp.ok) {
+        return (await resp.json()) as AllergenInfo;
+      }
+      console.warn('searchAllergens backend error', resp.status);
+    } catch (error) {
+      console.warn('searchAllergens backend request failed', error);
+    }
+  }
+
   const lower = allergen.toLowerCase();
   const presentInColorIds = PROFESSIONAL_COLORS
     .filter(c => c.allergens?.some(a => a.toLowerCase() === lower))
