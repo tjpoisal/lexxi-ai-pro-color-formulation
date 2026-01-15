@@ -17,10 +17,13 @@
     "react-native": "0.73.2",
     "react-native-vision-camera": "^3.9.0",
     "@mediapipe/tasks-vision": "^0.10.8",
-    "react-native-skia": "^1.0.0",
+    "@shopify/react-native-skia": "^1.0.0",
     "react-native-reanimated": "^3.6.1",
     "@react-native-async-storage/async-storage": "^1.21.0",
     "react-native-fs": "^2.20.0",
+    "react-native-encrypted-storage": "^5.0.0",
+    "react-native-root-detection": "^1.0.0",
+    "react-native-signature-canvas": "^4.5.0",
     "axios": "^1.6.5"
   },
   "devDependencies": {
