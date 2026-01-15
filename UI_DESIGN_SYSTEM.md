@@ -2,13 +2,13 @@
 
 ## 🎨 COMPLETE UI/UX DESIGN PROMPT
 
-Use this prompt with **v0.dev**, **Cursor**, **Claude**, or any AI design tool to generate the Lexxi Pro interface:
+Use this prompt with **v0.dev**, **Cursor**, **Claude**, or any AI design tool to generate the Lexxi AI Pro Color Formulation interface:
 
 ---
 
 ### **📱 DESIGN BRIEF**
 
-**App Name:** Lexxi Pro  
+**App Name:** Lexxi AI Pro Color Formulation  
 **Tagline:** "Show them. Don't tell them."  
 **Purpose:** Professional AR hair color consultation tool for stylists  
 **Platform:** iPad-first (landscape orientation), with iPhone support  
@@ -19,7 +19,7 @@ Use this prompt with **v0.dev**, **Cursor**, **Claude**, or any AI design tool t
 ## **PRIMARY PROMPT FOR v0.dev / CURSOR**
 
 ```
-Create a beautiful, modern iPad app interface for Lexxi Pro, a professional hair color consultation tool for stylists. The app combines AR camera preview with color selection and generates precise formulas.
+Create a beautiful, modern iPad app interface for Lexxi AI Pro Color Formulation, a professional hair color consultation tool for stylists. The app combines AR camera preview with color selection and generates precise formulas.
 
 DESIGN SYSTEM:
 - Colors: Deep charcoal (#2C2C2C), champagne gold (#D4AF37), pure white (#FFFFFF), soft cream (#F9F7F4)
@@ -31,7 +31,7 @@ DESIGN SYSTEM:
 CORE SCREENS TO DESIGN:
 
 1. HOME DASHBOARD
-- Top bar: "Lexxi Pro" logo (gold script), notification bell, settings gear
+- Top bar: "Lexxi AI Pro Color Formulation" logo (gold script), notification bell, settings gear
 - Hero section: Large "New Consultation" button (gold, rounded, elevated shadow)
 - Recent clients: Card-based grid with client photos + last service
 - Today's stats: Clean metrics cards (consultations, bookings, conversion %)
@@ -291,7 +291,7 @@ Checkmark: #FFFFFF on #D4AF37 background
 
 ```
 ┌──────────────────────────────────────────────────────┐
-│  [Lexxi Pro]            [🔔]  [⚙️]  [Profile Pic]   │
+│  [Lexxi AI Pro Color Formulation]            [🔔]  [⚙️]  [Profile Pic]   │
 ├──────────────────────────────────────────────────────┤
 │                                                      │
 │        ┌───────────────────────────┐                │
@@ -448,6 +448,6 @@ LARGE TEXT SUPPORT:
 
 ---
 
-**USE THIS PROMPT to generate the complete Lexxi Pro UI in v0.dev, Cursor, or any AI design tool. The result will be a luxurious, professional interface that positions Lexxi Pro as the premium tool for high-end salons.**
+**USE THIS PROMPT to generate the complete Lexxi AI Pro Color Formulation UI in v0.dev, Cursor, or any AI design tool. The result will be a luxurious, professional interface that positions Lexxi AI Pro Color Formulation as the premium tool for high-end salons.**
 
 Ready to generate the actual screens?

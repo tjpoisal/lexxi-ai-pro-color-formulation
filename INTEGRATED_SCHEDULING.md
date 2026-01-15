@@ -26,14 +26,14 @@
 
 ## 🔗 TWO-WAY SYNC SYSTEM
 
-**FROM Lexxi Pro → Booking Platform:**
+**FROM Lexxi AI Pro Color Formulation → Booking Platform:**
 - New consultation appointments
 - Patch test appointments
 - Service appointments
 - Formula records
 - Before/after photos
 
-**FROM Booking Platform → Lexxi Pro:**
+**FROM Booking Platform → Lexxi AI Pro Color Formulation:**
 - Existing appointments
 - Client contact info
 - Service history

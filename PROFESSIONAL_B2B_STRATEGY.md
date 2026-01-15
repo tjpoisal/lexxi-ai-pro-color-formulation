@@ -12,7 +12,7 @@
 ### **Core Problem Solved:**
 Stylists waste 15-30 minutes per consultation explaining color options, showing swatches, and managing client expectations. 40% of clients are unhappy with results because they couldn't visualize the outcome.
 
-### **Lexxi Pro Solution:**
+### **Lexxi AI Pro Color Formulation Solution:**
 Show clients EXACTLY how they'll look in real-time during consultation using AR. Generate precise formulas from 400+ professional brands. Increase service bookings by 60% and reduce color corrections by 80%.
 
 ---
@@ -197,7 +197,7 @@ AFTERCARE: Recommend Redken Color Extend
 ## 📱 PROFESSIONAL UI/UX REDESIGN
 
 ### **NEW BRANDING**
-- **Name:** Lexxi Pro (not "Lexxi Color Try-On")
+- **Name:** Lexxi AI Pro Color Formulation (not "Lexxi Color Try-On")
 - **Tagline:** "Show them. Don't tell them."
 - **Design:** Clean, professional, minimalist
 - **Colors:** Charcoal (#2C2C2C), Gold (#D4AF37), White
@@ -366,7 +366,7 @@ AFTERCARE: Recommend Redken Color Extend
 
 3. **Consultation → Booking Conversion**
    - Industry avg: 50%
-   - Lexxi Pro avg: 75%+ (25% lift)
+   - Lexxi AI Pro Color Formulation avg: 75%+ (25% lift)
 
 4. **Average Revenue Per User (ARPU)**
    - Target: $65/month (blended across tiers)
@@ -428,7 +428,7 @@ AFTERCARE: Recommend Redken Color Extend
 Stylists lose 30% of color clients due to poor visualization during consultation. Client says "I want ash blonde" but doesn't understand it won't work on their Level 4 hair. Result: Unhappy client, bad review, lost revenue.
 
 **SOLUTION:**  
-Lexxi Pro = AR color consultation + instant formula generation. Show clients EXACTLY how they'll look in real-time. Generate precise formulas from 400+ professional brands.
+Lexxi AI Pro Color Formulation = AR color consultation + instant formula generation. Show clients EXACTLY how they'll look in real-time. Generate precise formulas from 400+ professional brands.
 
 **MARKET:**  
 - 300K independent stylists in US
@@ -462,7 +462,7 @@ $500K seed round for:
 
 ## 📞 NEXT STEPS
 
-1. ✅ Rebrand as "Lexxi Pro"
+1. ✅ Rebrand as "Lexxi AI Pro Color Formulation"
 2. ✅ Update UI for professional use
 3. ⏳ Build formula generator engine
 4. ⏳ Add client CRM features

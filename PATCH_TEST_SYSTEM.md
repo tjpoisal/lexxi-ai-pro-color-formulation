@@ -269,7 +269,7 @@ CLIENT RECEIVES 3 AUTOMATED TEXTS:
 
 MESSAGE 1 (8 hours after application):
 ─────────────────────────────────────────────────────
-Hi Sarah! This is Lexxi Pro checking in on your 
+Hi Sarah! This is Lexxi AI Pro Color Formulation checking in on your 
 patch test. 
 
 Please check the test areas behind your ears and 
@@ -614,4 +614,4 @@ const styles = StyleSheet.create({
 
 **RESULT: Complete patch test system that protects stylists legally AND shows clients you prioritize their safety.**
 
-Next: Beautiful modern UI design prompt for Lexxi Pro.
+Next: Beautiful modern UI design prompt for Lexxi AI Pro Color Formulation.
