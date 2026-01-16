@@ -3,7 +3,7 @@
 # Push Lexxi AI Pro Color Formulation to GitHub
 # Run this after creating the repository on GitHub
 
-cd /Users/tim/lexxi-color-tryonapp
+cd /Users/tim/lexxi-ai-pro-color-formulation
 
 echo "🚀 Pushing Lexxi AI Pro Color Formulation to GitHub..."
 echo ""

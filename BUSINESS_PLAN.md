@@ -1,7 +1,7 @@
-# LEXXI AR HAIR COLOR TRY-ON - COMPLETE MONETIZATION PLAN
+# LEXXI AI PRO COLOR FORMULATION - CONSUMER MONETIZATION PLAN (LEGACY)
 
 ## 📱 APP OVERVIEW
-**Lexxi** is a standalone AR hair color try-on app for iOS & Android, completely separate from Strattora. Users see real-time hair color changes using MediaPipe ML segmentation with 400+ professional colors.
+**Lexxi** is a standalone AR hair color app for iOS & Android, completely separate from Strattora. Users see real-time hair color changes using MediaPipe ML segmentation with 400+ professional colors.
 
 ---
 

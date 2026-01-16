@@ -3,12 +3,12 @@ import SceneKit
 import UIKit
 import Vision
 
-// LEXXI AI: ARKit Color Try-On - Core View Controller
-// This file implements the core ARKit-based hair color try-on experience
+// LEXXI AI: ARKit Color Formulation - Core View Controller
+// This file implements the core ARKit-based hair color visualization and formulation experience
 // plus hooks for ML-based hair segmentation, lighting adaptation, and
 // integration with Strattora/Supabase color data.
 
-class LexxiColorTryOnViewController: UIViewController {
+class LexxiColorFormulationViewController: UIViewController {
     
     // MARK: - Properties
     private var sceneView: ARSCNView!
@@ -135,7 +135,7 @@ class LexxiColorTryOnViewController: UIViewController {
 }
 
 // MARK: - ARSCNViewDelegate
-extension LexxiColorTryOnViewController: ARSCNViewDelegate {
+extension LexxiColorFormulationViewController: ARSCNViewDelegate {
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         guard let faceAnchor = anchor as? ARFaceAnchor,
@@ -184,7 +184,7 @@ extension LexxiColorTryOnViewController: ARSCNViewDelegate {
 }
 
 // MARK: - ML-Based Hair Segmentation (stub hook)
-extension LexxiColorTryOnViewController {
+extension LexxiColorFormulationViewController {
     func segmentHairUsingML(image: CVPixelBuffer) -> CIImage? {
         let request = VNGeneratePersonSegmentationRequest()
         request.qualityLevel = .accurate
@@ -241,7 +241,7 @@ protocol AnySupabaseClient {
     func fetchHairColors() async throws -> Data
 }
 
-extension LexxiColorTryOnViewController {
+extension LexxiColorFormulationViewController {
     func fetchProfessionalColors(using supabase: AnySupabaseClient) async throws -> [ColorOption] {
         let data = try await supabase.fetchHairColors()
         return try JSONDecoder().decode([ColorOption].self, from: data)

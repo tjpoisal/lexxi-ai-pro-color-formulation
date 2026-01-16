@@ -292,6 +292,6 @@ lexxi-ai-pro-color-formulation/
 
 ---
 
-**Built at:** `/Users/tim/lexxi-color-tryonapp/`  
+**Built at:** `/Users/tim/lexxi-ai-pro-color-formulation/`  
 **Status:** Ready for GitHub push and beta deployment  
 **License:** Proprietary (Commercial B2B SaaS)

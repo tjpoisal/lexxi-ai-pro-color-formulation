@@ -29,7 +29,7 @@ Professional AI-powered hair color consultation & formulation system for stylist
 ## 2️⃣ PUSH CODE TO GITHUB
 
 ```bash
-cd /Users/tim/lexxi-color-tryonapp
+cd /Users/tim/lexxi-ai-pro-color-formulation
 
 # Add the remote
 git remote add origin https://github.com/tjpoisal/lexxi-ai-pro-color-formulation.git
@@ -80,7 +80,7 @@ git push -u origin main
 ✅ **"Color Formulation"** - Core value = precise formulas  
 
 **Differentiates from:**
-- Consumer "color try-on" apps (like YouCam)
+- Consumer AR hair color apps (like YouCam)
 - Generic "beauty tech" tools
 - Salon booking-only platforms
 

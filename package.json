@@ -1,7 +1,7 @@
 {
   "name": "lexxi-ai-pro-color-formulation",
   "version": "1.0.0",
-  "description": "Lexxi AR Hair Color Try-On - Standalone iOS & Android App",
+  "description": "Lexxi AI Pro Color Formulation - Standalone iOS & Android App",
   "main": "index.js",
   "scripts": {
     "start": "react-native start",

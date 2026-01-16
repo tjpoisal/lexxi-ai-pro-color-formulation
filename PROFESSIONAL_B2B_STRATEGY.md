@@ -197,7 +197,7 @@ AFTERCARE: Recommend Redken Color Extend
 ## 📱 PROFESSIONAL UI/UX REDESIGN
 
 ### **NEW BRANDING**
-- **Name:** Lexxi AI Pro Color Formulation (not "Lexxi Color Try-On")
+- **Name:** Lexxi AI Pro Color Formulation (replacing earlier consumer AR hair color branding)
 - **Tagline:** "Show them. Don't tell them."
 - **Design:** Clean, professional, minimalist
 - **Colors:** Charcoal (#2C2C2C), Gold (#D4AF37), White

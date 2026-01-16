@@ -1,6 +1,6 @@
 # Security & Privacy Overview
 
-This document describes the initial security and privacy posture for the Lexxi AR Hair Color Try-On app.
+This document describes the initial security and privacy posture for the Lexxi AI Pro Color Formulation app.
 
 ## Data Types and Sensitivity
 

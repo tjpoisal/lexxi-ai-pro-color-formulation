@@ -19,6 +19,7 @@ import {
   type HairColorDetail,
   type ConversionSuggestion,
 } from './src/api/haircolor';
+import {LexxiSplashScreen} from './src/components/LexxiSplashScreen';
 
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
 
@@ -26,7 +27,7 @@ const ALLERGEN_FILTERS = ['PPD', 'PTDS', 'resorcinol', 'fragrance'];
 
 const HAIR_COLORS: HairColor[] = PROFESSIONAL_COLORS;
 
-export default function LexxiColorTryOnApp() {
+function LexxiColorFormulationApp() {
   const [selectedColor, setSelectedColor] = useState<HairColor>(HAIR_COLORS[0]);
   const [hasPermission, setHasPermission] = useState(false);
   const [hairMask, setHairMask] = useState<unknown | null>(null);
@@ -168,7 +169,7 @@ export default function LexxiColorTryOnApp() {
       {/* Top UI - Brand Info */}
       <View style={styles.topBar}>
         <Text style={styles.logo}>Lexxi</Text>
-        <Text style={styles.subtitle}>AR Color Try-On</Text>
+        <Text style={styles.subtitle}>AI Pro Color Formulation</Text>
       </View>
 
       {/* Bottom UI - Color Picker + Metadata */}
@@ -356,6 +357,54 @@ export default function LexxiColorTryOnApp() {
       )}
     </View>
   );
+}
+
+export default function AppRoot() {
+  const [showSplash, setShowSplash] = useState(false);
+  const [splashChecked, setSplashChecked] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const seen = await AsyncStorage.getItem('hasSeenLexxiSplash');
+        if (!cancelled) {
+          if (seen === 'true') {
+            setShowSplash(false);
+          } else {
+            setShowSplash(true);
+          }
+          setSplashChecked(true);
+        }
+      } catch (e) {
+        if (!cancelled) {
+          setShowSplash(false);
+          setSplashChecked(true);
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const handleSplashDone = () => {
+    setShowSplash(false);
+    AsyncStorage.setItem('hasSeenLexxiSplash', 'true').catch(() => {
+      // non-critical
+    });
+  };
+
+  if (!splashChecked) {
+    // Initial blank state while we determine if splash has been seen
+    return null;
+  }
+
+  if (showSplash) {
+    return <LexxiSplashScreen onDone={handleSplashDone} />;
+  }
+
+  return <LexxiColorFormulationApp />;
 }
 
 // Hair segmentation function (placeholder - implement with MediaPipe)
