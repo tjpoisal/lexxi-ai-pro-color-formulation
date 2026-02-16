@@ -553,18 +553,18 @@ export default function PatchTestScheduler({
 }
 
 const styles = StyleSheet.create({
-  container: {padding: 20, backgroundColor: '#fff'},
-  warning: {flexDirection: 'row', alignItems: 'center', backgroundColor: '#FFF3CD', padding: 16, borderRadius: 8, marginBottom: 20},
+  container: {padding: 20, backgroundColor: '#FAFAFA'},
+  warning: {flexDirection: 'row', alignItems: 'center', backgroundColor: '#FEF3C7', padding: 16, borderRadius: 8, marginBottom: 20},
   warningIcon: {fontSize: 24, marginRight: 12},
-  warningText: {fontSize: 16, fontWeight: 'bold', color: '#856404'},
+  warningText: {fontSize: 16, fontWeight: 'bold', color: '#92400E'},
   section: {marginBottom: 20},
-  label: {fontSize: 12, color: '#666', marginBottom: 8, fontWeight: '600'},
-  value: {fontSize: 14, color: '#333', marginBottom: 4},
-  product: {fontSize: 14, color: '#333', marginLeft: 8, marginBottom: 4},
-  serviceDate: {fontSize: 18, fontWeight: 'bold', color: '#D4AF37'},
-  deadline: {fontSize: 16, fontWeight: 'bold', color: '#dc3545'},
-  button: {backgroundColor: '#D4AF37', padding: 16, borderRadius: 8, alignItems: 'center'},
-  buttonText: {fontSize: 16, fontWeight: 'bold', color: '#fff'},
+  label: {fontSize: 12, color: '#4B5563', marginBottom: 8, fontWeight: '600'},
+  value: {fontSize: 14, color: '#374151', marginBottom: 4},
+  product: {fontSize: 14, color: '#374151', marginLeft: 8, marginBottom: 4},
+  serviceDate: {fontSize: 18, fontWeight: 'bold', color: '#0F52BA'},
+  deadline: {fontSize: 16, fontWeight: 'bold', color: '#E0115F'},
+  button: {backgroundColor: '#0F6B5A', padding: 16, borderRadius: 8, alignItems: 'center'},
+  buttonText: {fontSize: 16, fontWeight: 'bold', color: '#FAFAFA'},
 });
 ```
 

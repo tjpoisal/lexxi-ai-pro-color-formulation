@@ -15,7 +15,7 @@ export default function SignatureCapture({onSigned}) {
         ref={ref}
         onEnd={handleEnd}
         webStyle={`
-          .m-signature-pad {border: 2px solid #D4AF37; border-radius: 8px;}
+          .m-signature-pad {border: 2px solid #0F6B5A; border-radius: 8px;}
           .m-signature-pad--footer {display: none;}
         `}
       />
@@ -28,6 +28,6 @@ export default function SignatureCapture({onSigned}) {
 
 const styles = StyleSheet.create({
   container: {height: 200, margin: 20},
-  clear: {marginTop: 10, padding: 10, backgroundColor: '#ccc', borderRadius: 4},
-  clearText: {textAlign: 'center', fontWeight: 'bold'},
+  clear: {marginTop: 10, padding: 10, backgroundColor: '#E5E7EB', borderRadius: 4},
+  clearText: {textAlign: 'center', fontWeight: 'bold', color: '#374151'},
 });
