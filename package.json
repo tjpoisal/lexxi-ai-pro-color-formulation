@@ -10,7 +10,7 @@
     "build:ios": "cd ios && xcodebuild -workspace LexxiColorTryOn.xcworkspace -scheme LexxiColorTryOn -configuration Release archive",
     "build:android": "cd android && ./gradlew assembleRelease",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
     "react": "18.2.0",
