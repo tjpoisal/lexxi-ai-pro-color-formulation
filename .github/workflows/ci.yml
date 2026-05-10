@@ -4,10 +4,15 @@ on:
   push:
   pull_request:
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   ci:
     name: Lint & Test
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - uses: actions/checkout@v4
@@ -20,9 +25,12 @@ jobs:
 
       - name: Install dependencies
         run: npm install --no-audit
+        timeout-minutes: 10
 
       - name: Lint
         run: npm run lint
+        timeout-minutes: 3
 
       - name: Test
         run: npm test -- --passWithNoTests --watchAll=false
+        timeout-minutes: 5
