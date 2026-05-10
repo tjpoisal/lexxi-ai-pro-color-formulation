@@ -12,6 +12,13 @@
     "test": "jest",
     "lint": "eslint ."
   },
+  "jest": {
+    "preset": "react-native",
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(react-native|@react-native|@react-native-community|react-native-vision-camera|react-native-reanimated|@shopify/react-native-skia|react-native-fs|react-native-encrypted-storage|react-native-root-detection|react-native-signature-canvas)/)"
+    ]
+  },
   "dependencies": {
     "react": "18.2.0",
     "react-native": "0.73.2",
