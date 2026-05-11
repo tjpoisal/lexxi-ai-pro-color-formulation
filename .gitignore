@@ -1,9 +1,44 @@
+# macOS
 .DS_Store
+
+# Node
 node_modules/
 dist/
 build/
-.expo/
 *.log
+
+# Expo
+.expo/
+
+# Env files — never commit credentials
 .env
 .env.*
 !.env.example
+
+# React Native — iOS
+ios/build/
+ios/Pods/
+ios/DerivedData/
+*.xcworkspace/
+*.xcuserdata/
+
+# React Native — Android
+android/build/
+android/app/build/
+android/.gradle/
+android/local.properties
+
+# Signing keys — NEVER commit
+*.keystore
+*.jks
+*.p8
+*.p12
+*.mobileprovision
+*.key
+*.pem
+
+# Metro bundler cache
+.metro-cache/
+
+# Jest coverage
+coverage/
