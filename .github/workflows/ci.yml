@@ -6,7 +6,7 @@ on:
 
 jobs:
   ci:
-    name: Lint & Test
+    name: Lint & Test & Typecheck
     runs-on: ubuntu-latest
 
     steps:
@@ -23,6 +23,9 @@ jobs:
 
       - name: Lint
         run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
 
       - name: Test
         run: npm test -- --passWithNoTests --watchAll=false
