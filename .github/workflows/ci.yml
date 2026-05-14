@@ -19,10 +19,13 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm install --no-audit
+        run: npm install --legacy-peer-deps --no-audit
+        timeout-minutes: 10
 
       - name: Lint
         run: npm run lint
+        timeout-minutes: 5
 
       - name: Test
         run: npm test -- --passWithNoTests --watchAll=false
+        timeout-minutes: 10
