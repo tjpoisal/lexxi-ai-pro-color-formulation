@@ -19,7 +19,12 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm install --no-audit
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci --no-audit
+          else
+            npm install --no-audit
+          fi
 
       - name: Lint
         run: npm run lint
