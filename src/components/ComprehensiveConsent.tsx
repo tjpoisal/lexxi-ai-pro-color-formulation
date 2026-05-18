@@ -1,7 +1,15 @@
-import React, {useState} from 'react';
-import {View, Text, ScrollView, TouchableOpacity, StyleSheet, Alert, SafeAreaView} from 'react-native';
-import {Button, Card} from './ui';
-import {COLORS, TYPOGRAPHY, SPACING, LAYOUT} from '../config/theme';
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  SafeAreaView,
+} from 'react-native';
+import { Button, Card } from './ui';
+import { COLORS, TYPOGRAPHY, SPACING, LAYOUT } from '../config/theme';
 import SignatureCapture from './SignatureCapture';
 
 const ACKNOWLEDGMENTS = [
@@ -22,7 +30,7 @@ interface ComprehensiveConsentProps {
   serviceDescription: string;
   formula: string;
   cost: number;
-  onComplete: (signatures: {client: string; stylist: string}) => void;
+  onComplete: (signatures: { client: string; stylist: string }) => void;
 }
 
 export default function ComprehensiveConsent({
@@ -39,14 +47,14 @@ export default function ComprehensiveConsent({
   const [showClientSig, setShowClientSig] = useState(false);
   const [showStylistSig, setShowStylistSig] = useState(false);
 
-  const allChecked = checkedItems.every(item => item);
+  const allChecked = checkedItems.every((item) => item);
 
   const handleSubmit = () => {
     if (!allChecked || !clientSignature || !stylistSignature) {
       Alert.alert('Incomplete', 'All fields required');
       return;
     }
-    onComplete({client: clientSignature, stylist: stylistSignature});
+    onComplete({ client: clientSignature, stylist: stylistSignature });
   };
 
   const toggleAcknowledgment = (index: number) => {
@@ -80,7 +88,9 @@ export default function ComprehensiveConsent({
           </View>
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>Date:</Text>
-            <Text style={styles.infoValue}>{new Date().toLocaleDateString()}</Text>
+            <Text style={styles.infoValue}>
+              {new Date().toLocaleDateString()}
+            </Text>
           </View>
         </Card>
 
@@ -99,7 +109,9 @@ export default function ComprehensiveConsent({
         {/* Acknowledgments */}
         <Card style={styles.acknowledgmentsSection}>
           <Text style={styles.sectionTitle}>Acknowledgments</Text>
-          <Text style={styles.acknowledgmentsNote}>Please check each acknowledgment:</Text>
+          <Text style={styles.acknowledgmentsNote}>
+            Please check each acknowledgment:
+          </Text>
 
           {ACKNOWLEDGMENTS.map((ack, i) => (
             <TouchableOpacity
@@ -107,10 +119,20 @@ export default function ComprehensiveConsent({
               style={styles.acknowledgmentRow}
               onPress={() => toggleAcknowledgment(i)}
             >
-              <View style={[styles.checkbox, checkedItems[i] && styles.checkboxChecked]}>
+              <View
+                style={[
+                  styles.checkbox,
+                  checkedItems[i] && styles.checkboxChecked,
+                ]}
+              >
                 {checkedItems[i] && <Text style={styles.checkmark}>✓</Text>}
               </View>
-              <Text style={[styles.acknowledgmentText, checkedItems[i] && styles.acknowledgmentTextChecked]}>
+              <Text
+                style={[
+                  styles.acknowledgmentText,
+                  checkedItems[i] && styles.acknowledgmentTextChecked,
+                ]}
+              >
                 {ack}
               </Text>
             </TouchableOpacity>
@@ -122,11 +144,21 @@ export default function ComprehensiveConsent({
           <View style={styles.signatureContainer}>
             {!showClientSig ? (
               <TouchableOpacity
-                style={[styles.signatureButton, clientSignature && styles.signatureButtonSigned]}
+                style={[
+                  styles.signatureButton,
+                  clientSignature && styles.signatureButtonSigned,
+                ]}
                 onPress={() => setShowClientSig(true)}
               >
-                <Text style={[styles.signatureButtonText, clientSignature && styles.signatureButtonTextSigned]}>
-                  {clientSignature ? '✓ Client Signature Complete' : 'Client Signature'}
+                <Text
+                  style={[
+                    styles.signatureButtonText,
+                    clientSignature && styles.signatureButtonTextSigned,
+                  ]}
+                >
+                  {clientSignature
+                    ? '✓ Client Signature Complete'
+                    : 'Client Signature'}
                 </Text>
               </TouchableOpacity>
             ) : (
@@ -145,11 +177,21 @@ export default function ComprehensiveConsent({
           <View style={styles.signatureContainer}>
             {!showStylistSig ? (
               <TouchableOpacity
-                style={[styles.signatureButton, stylistSignature && styles.signatureButtonSigned]}
+                style={[
+                  styles.signatureButton,
+                  stylistSignature && styles.signatureButtonSigned,
+                ]}
                 onPress={() => setShowStylistSig(true)}
               >
-                <Text style={[styles.signatureButtonText, stylistSignature && styles.signatureButtonTextSigned]}>
-                  {stylistSignature ? '✓ Stylist Signature Complete' : 'Stylist Signature'}
+                <Text
+                  style={[
+                    styles.signatureButtonText,
+                    stylistSignature && styles.signatureButtonTextSigned,
+                  ]}
+                >
+                  {stylistSignature
+                    ? '✓ Stylist Signature Complete'
+                    : 'Stylist Signature'}
                 </Text>
               </TouchableOpacity>
             ) : (

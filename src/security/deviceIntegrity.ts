@@ -2,7 +2,11 @@
 // Uses react-native-root-detection to detect rooted/jailbroken devices
 // and provides a hook to gate high-risk flows.
 
-import {isRooted, isDebuggable, isOnExternalStorage} from 'react-native-root-detection';
+import {
+  isRooted,
+  isDebuggable,
+  isOnExternalStorage,
+} from 'react-native-root-detection';
 
 export async function isDeviceCompromised(): Promise<boolean> {
   try {

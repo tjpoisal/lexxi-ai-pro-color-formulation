@@ -7,9 +7,9 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {Button, Card} from '../components/ui';
-import {COLORS, TYPOGRAPHY, SPACING, LAYOUT} from '../config/theme';
+import { useNavigation } from '@react-navigation/native';
+import { Button, Card } from '../components/ui';
+import { COLORS, TYPOGRAPHY, SPACING, LAYOUT } from '../config/theme';
 
 // Mock formula data
 const mockFormula = {
@@ -47,16 +47,13 @@ const mockFormula = {
     processing: '20 min',
   },
   costAnalysis: {
-    products: 42.50,
-    serviceFee: 165.00,
-    total: 207.50,
+    products: 42.5,
+    serviceFee: 165.0,
+    total: 207.5,
     margin: 77,
   },
   maintenance: 'Toner refresh in 6-8 weeks',
-  alternatives: [
-    'Full Highlights $245',
-    'Single Process $135',
-  ],
+  alternatives: ['Full Highlights $245', 'Single Process $135'],
 };
 
 export default function FormulaScreen() {
@@ -74,7 +71,13 @@ export default function FormulaScreen() {
     // Save to library
   };
 
-  const FormulaSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
+  const FormulaSection = ({
+    title,
+    children,
+  }: {
+    title: string;
+    children: React.ReactNode;
+  }) => (
     <View style={styles.formulaSection}>
       <Text style={styles.sectionTitle}>{title}</Text>
       {children}
@@ -93,7 +96,9 @@ export default function FormulaScreen() {
           <Text style={styles.headerTitle}>COLOR FORMULA</Text>
           <Text style={styles.clientName}>{mockFormula.clientName}</Text>
           <Text style={styles.desiredColor}>{mockFormula.desiredColor}</Text>
-          <Text style={styles.startingLevel}>Starting Level: {mockFormula.startingLevel}</Text>
+          <Text style={styles.startingLevel}>
+            Starting Level: {mockFormula.startingLevel}
+          </Text>
         </View>
 
         <Card style={styles.formulaCard}>
@@ -104,7 +109,9 @@ export default function FormulaScreen() {
 
           {/* Processing Time */}
           <FormulaSection title="⏱️ PROCESSING">
-            <Text style={styles.sectionContent}>{mockFormula.processingTime}</Text>
+            <Text style={styles.sectionContent}>
+              {mockFormula.processingTime}
+            </Text>
           </FormulaSection>
 
           {/* Formula Breakdown */}
@@ -113,29 +120,62 @@ export default function FormulaScreen() {
           {/* Base Color */}
           <FormulaSection title="BASE COLOR (Roots)">
             <View style={styles.formulaItem}>
-              <Text style={styles.productText}>• {mockFormula.baseColor.product} ............ {mockFormula.baseColor.amount}</Text>
-              <Text style={styles.productText}>• {mockFormula.baseColor.developer} ........ {mockFormula.baseColor.developerAmount}</Text>
-              <Text style={styles.productText}>• Ratio: {mockFormula.baseColor.ratio} | Processing: {mockFormula.baseColor.processing}</Text>
+              <Text style={styles.productText}>
+                • {mockFormula.baseColor.product} ............{' '}
+                {mockFormula.baseColor.amount}
+              </Text>
+              <Text style={styles.productText}>
+                • {mockFormula.baseColor.developer} ........{' '}
+                {mockFormula.baseColor.developerAmount}
+              </Text>
+              <Text style={styles.productText}>
+                • Ratio: {mockFormula.baseColor.ratio} | Processing:{' '}
+                {mockFormula.baseColor.processing}
+              </Text>
             </View>
           </FormulaSection>
 
           {/* Highlight Formula */}
           <FormulaSection title="HIGHLIGHT FORMULA (Mid-lengths)">
             <View style={styles.formulaItem}>
-              <Text style={styles.productText}>• {mockFormula.highlightFormula.product} ....... {mockFormula.highlightFormula.amount}</Text>
-              <Text style={styles.productText}>• {mockFormula.highlightFormula.developer} ........... {mockFormula.highlightFormula.developerAmount}</Text>
-              <Text style={styles.productText}>• {mockFormula.highlightFormula.olaplex} ..................... {mockFormula.highlightFormula.olaplexAmount}</Text>
-              <Text style={styles.productText}>• Ratio: {mockFormula.highlightFormula.ratio} | Processing: {mockFormula.highlightFormula.processing}</Text>
+              <Text style={styles.productText}>
+                • {mockFormula.highlightFormula.product} .......{' '}
+                {mockFormula.highlightFormula.amount}
+              </Text>
+              <Text style={styles.productText}>
+                • {mockFormula.highlightFormula.developer} ...........{' '}
+                {mockFormula.highlightFormula.developerAmount}
+              </Text>
+              <Text style={styles.productText}>
+                • {mockFormula.highlightFormula.olaplex} .....................{' '}
+                {mockFormula.highlightFormula.olaplexAmount}
+              </Text>
+              <Text style={styles.productText}>
+                • Ratio: {mockFormula.highlightFormula.ratio} | Processing:{' '}
+                {mockFormula.highlightFormula.processing}
+              </Text>
             </View>
           </FormulaSection>
 
           {/* Toner Formula */}
           <FormulaSection title="TONER (Ends)">
             <View style={styles.formulaItem}>
-              <Text style={styles.productText}>• {mockFormula.tonerFormula.product1} ........... {mockFormula.tonerFormula.amount1}</Text>
-              <Text style={styles.productText}>• {mockFormula.tonerFormula.product2} ............ {mockFormula.tonerFormula.amount2}</Text>
-              <Text style={styles.productText}>• {mockFormula.tonerFormula.emulsion} .................... {mockFormula.tonerFormula.emulsionAmount}</Text>
-              <Text style={styles.productText}>• Ratio: {mockFormula.tonerFormula.ratio} | Processing: {mockFormula.tonerFormula.processing}</Text>
+              <Text style={styles.productText}>
+                • {mockFormula.tonerFormula.product1} ...........{' '}
+                {mockFormula.tonerFormula.amount1}
+              </Text>
+              <Text style={styles.productText}>
+                • {mockFormula.tonerFormula.product2} ............{' '}
+                {mockFormula.tonerFormula.amount2}
+              </Text>
+              <Text style={styles.productText}>
+                • {mockFormula.tonerFormula.emulsion} ....................{' '}
+                {mockFormula.tonerFormula.emulsionAmount}
+              </Text>
+              <Text style={styles.productText}>
+                • Ratio: {mockFormula.tonerFormula.ratio} | Processing:{' '}
+                {mockFormula.tonerFormula.processing}
+              </Text>
             </View>
           </FormulaSection>
 
@@ -146,19 +186,29 @@ export default function FormulaScreen() {
             <View style={styles.costTable}>
               <View style={styles.costRow}>
                 <Text style={styles.costLabel}>Color Products</Text>
-                <Text style={styles.costValue}>${mockFormula.costAnalysis.products}</Text>
+                <Text style={styles.costValue}>
+                  ${mockFormula.costAnalysis.products}
+                </Text>
               </View>
               <View style={styles.costRow}>
                 <Text style={styles.costLabel}>Service Fee</Text>
-                <Text style={styles.costValue}>${mockFormula.costAnalysis.serviceFee}</Text>
+                <Text style={styles.costValue}>
+                  ${mockFormula.costAnalysis.serviceFee}
+                </Text>
               </View>
               <View style={[styles.costRow, styles.costTotalRow]}>
-                <Text style={[styles.costLabel, styles.costTotalLabel]}>TOTAL</Text>
-                <Text style={[styles.costValue, styles.costTotalValue]}>${mockFormula.costAnalysis.total}</Text>
+                <Text style={[styles.costLabel, styles.costTotalLabel]}>
+                  TOTAL
+                </Text>
+                <Text style={[styles.costValue, styles.costTotalValue]}>
+                  ${mockFormula.costAnalysis.total}
+                </Text>
               </View>
               <View style={styles.costRow}>
                 <Text style={styles.costLabel}>PROFIT MARGIN</Text>
-                <Text style={styles.costValue}>{mockFormula.costAnalysis.margin}%</Text>
+                <Text style={styles.costValue}>
+                  {mockFormula.costAnalysis.margin}%
+                </Text>
               </View>
             </View>
           </FormulaSection>

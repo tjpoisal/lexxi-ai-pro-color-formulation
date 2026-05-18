@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -8,23 +8,59 @@ import {
   SafeAreaView,
   Dimensions,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {Button, Card, ColorSwatch} from '../components/ui';
-import {COLORS, TYPOGRAPHY, SPACING, LAYOUT, IS_IPAD} from '../config/theme';
+import { useNavigation } from '@react-navigation/native';
+import { Button, Card, ColorSwatch } from '../components/ui';
+import { COLORS, TYPOGRAPHY, SPACING, LAYOUT, IS_IPAD } from '../config/theme';
 
-const {width, height} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 // Mock color data
 const colorCategories = ['All', 'Blonde', 'Brown', 'Red', 'Black', 'Fashion'];
-const brands = ['Wella', 'Redken', 'L\'Oréal', 'Clairol', 'Garnier'];
+const brands = ['Wella', 'Redken', "L'Oréal", 'Clairol', 'Garnier'];
 
 const mockColors = [
-  {id: '1', name: 'Warm Caramel', brand: 'Redken', line: 'Shades EQ', hex: '#8B4513'},
-  {id: '2', name: 'Golden Honey', brand: 'Wella', line: 'Color Touch', hex: '#DAA520'},
-  {id: '3', name: 'Chestnut Brown', brand: 'L\'Oréal', line: 'Preference', hex: '#654321'},
-  {id: '4', name: 'Ash Blonde', brand: 'Clairol', line: 'Nice\'n Easy', hex: '#F5F5DC'},
-  {id: '5', name: 'Copper Red', brand: 'Garnier', line: 'Nutrisse', hex: '#B87333'},
-  {id: '6', name: 'Jet Black', brand: 'Dark & Lovely', line: 'Beautiful Beginnings', hex: '#000000'},
+  {
+    id: '1',
+    name: 'Warm Caramel',
+    brand: 'Redken',
+    line: 'Shades EQ',
+    hex: '#8B4513',
+  },
+  {
+    id: '2',
+    name: 'Golden Honey',
+    brand: 'Wella',
+    line: 'Color Touch',
+    hex: '#DAA520',
+  },
+  {
+    id: '3',
+    name: 'Chestnut Brown',
+    brand: "L'Oréal",
+    line: 'Preference',
+    hex: '#654321',
+  },
+  {
+    id: '4',
+    name: 'Ash Blonde',
+    brand: 'Clairol',
+    line: "Nice'n Easy",
+    hex: '#F5F5DC',
+  },
+  {
+    id: '5',
+    name: 'Copper Red',
+    brand: 'Garnier',
+    line: 'Nutrisse',
+    hex: '#B87333',
+  },
+  {
+    id: '6',
+    name: 'Jet Black',
+    brand: 'Dark & Lovely',
+    line: 'Beautiful Beginnings',
+    hex: '#000000',
+  },
 ];
 
 export default function ConsultationScreen() {
@@ -32,12 +68,14 @@ export default function ConsultationScreen() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedBrand, setSelectedBrand] = useState('Wella');
   const [selectedColor, setSelectedColor] = useState(mockColors[0]);
-  const [beforeAfterMode, setBeforeAfterMode] = useState<'before' | 'after'>('after');
+  const [beforeAfterMode, setBeforeAfterMode] = useState<'before' | 'after'>(
+    'after',
+  );
 
   const cameraWidth = IS_IPAD ? width * LAYOUT.cameraWidthRatio : width;
   const controlsWidth = IS_IPAD ? width * LAYOUT.controlsWidthRatio : width;
 
-  const handleColorSelect = (color: typeof mockColors[0]) => {
+  const handleColorSelect = (color: (typeof mockColors)[0]) => {
     setSelectedColor(color);
   };
 
@@ -55,7 +93,7 @@ export default function ConsultationScreen() {
   };
 
   const CameraSection = () => (
-    <View style={[styles.cameraSection, {width: cameraWidth}]}>
+    <View style={[styles.cameraSection, { width: cameraWidth }]}>
       {/* Camera Feed Placeholder */}
       <View style={styles.cameraFeed}>
         <View style={styles.cameraPlaceholder}>
@@ -70,13 +108,19 @@ export default function ConsultationScreen() {
         {/* Before/After Toggle */}
         <View style={styles.beforeAfterToggle}>
           <TouchableOpacity
-            style={[styles.toggleButton, beforeAfterMode === 'before' && styles.toggleActive]}
+            style={[
+              styles.toggleButton,
+              beforeAfterMode === 'before' && styles.toggleActive,
+            ]}
             onPress={() => setBeforeAfterMode('before')}
           >
             <Text style={styles.toggleText}>Before</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.toggleButton, beforeAfterMode === 'after' && styles.toggleActive]}
+            style={[
+              styles.toggleButton,
+              beforeAfterMode === 'after' && styles.toggleActive,
+            ]}
             onPress={() => setBeforeAfterMode('after')}
           >
             <Text style={styles.toggleText}>After</Text>
@@ -92,7 +136,7 @@ export default function ConsultationScreen() {
   );
 
   const ControlsSection = () => (
-    <View style={[styles.controlsSection, {width: controlsWidth}]}>
+    <View style={[styles.controlsSection, { width: controlsWidth }]}>
       <ScrollView
         style={styles.controlsScroll}
         contentContainerStyle={styles.controlsContent}
@@ -120,7 +164,9 @@ export default function ConsultationScreen() {
         {/* Selected Color Display */}
         <Card style={styles.selectedColorCard}>
           <Text style={styles.selectedColorName}>{selectedColor.name}</Text>
-          <Text style={styles.selectedColorBrand}>{selectedColor.brand} {selectedColor.line}</Text>
+          <Text style={styles.selectedColorBrand}>
+            {selectedColor.brand} {selectedColor.line}
+          </Text>
         </Card>
 
         {/* Category Tabs */}
@@ -149,7 +195,11 @@ export default function ConsultationScreen() {
         {/* Brand Filter */}
         <View style={styles.brandSection}>
           <Text style={styles.sectionLabel}>Brand:</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.brandScroll}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.brandScroll}
+          >
             {brands.map((brand) => (
               <TouchableOpacity
                 key={brand}

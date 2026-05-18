@@ -1,3 +1,3 @@
-export {Button} from './Button';
-export {Card} from './Card';
-export {ColorSwatch} from './ColorSwatch';
+export { Button } from './Button';
+export { Card } from './Card';
+export { ColorSwatch } from './ColorSwatch';

@@ -7,7 +7,7 @@ import {
   TextStyle,
   ActivityIndicator,
 } from 'react-native';
-import {COLORS, TYPOGRAPHY, COMPONENT_STYLES} from '../../config/theme';
+import { COLORS, TYPOGRAPHY, COMPONENT_STYLES } from '../../config/theme';
 
 interface ButtonProps {
   title: string;
@@ -24,7 +24,7 @@ export function Button({
   title,
   onPress,
   variant = 'primary',
-  size = 'md',
+  size: _size = 'md',
   disabled = false,
   loading = false,
   style,
@@ -91,7 +91,9 @@ export function Button({
     >
       {loading ? (
         <ActivityIndicator
-          color={variant === 'primary' ? COLORS.pureWhite : COLORS.champagneGold}
+          color={
+            variant === 'primary' ? COLORS.pureWhite : COLORS.champagneGold
+          }
           size="small"
         />
       ) : (

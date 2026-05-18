@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {Dimensions, StyleSheet, View} from 'react-native';
+import React, { useEffect } from 'react';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import {
   Canvas,
   Rect,
@@ -18,7 +18,7 @@ import Animated, {
   useAnimatedStyle,
 } from 'react-native-reanimated';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 // Lexxi Pro Color Usage Guide:
 // Off White:    #FAFAFA  (backgrounds, cards, inputs)
@@ -32,7 +32,9 @@ interface LexxiSplashScreenProps {
   onDone: () => void;
 }
 
-export const LexxiSplashScreen: React.FC<LexxiSplashScreenProps> = ({onDone}) => {
+export const LexxiSplashScreen: React.FC<LexxiSplashScreenProps> = ({
+  onDone,
+}) => {
   const clock = useClockValue();
 
   // Overall 0–1 progress over ~4s
@@ -43,19 +45,15 @@ export const LexxiSplashScreen: React.FC<LexxiSplashScreenProps> = ({onDone}) =>
   const proOpacity = useSharedValue(0);
 
   useEffect(() => {
-    progress.value = withTiming(
-      1,
-      {duration: 4000},
-      finished => {
-        if (finished) {
-          setTimeout(onDone, 600);
-        }
-      },
-    );
+    progress.value = withTiming(1, { duration: 4000 }, (finished) => {
+      if (finished) {
+        setTimeout(onDone, 600);
+      }
+    });
 
     const proTimer = setTimeout(() => {
-      proScale.value = withSpring(1, {damping: 14, stiffness: 160});
-      proOpacity.value = withTiming(1, {duration: 260});
+      proScale.value = withSpring(1, { damping: 14, stiffness: 160 });
+      proOpacity.value = withTiming(1, { duration: 260 });
     }, 3500);
 
     return () => clearTimeout(proTimer);
@@ -72,11 +70,12 @@ export const LexxiSplashScreen: React.FC<LexxiSplashScreenProps> = ({onDone}) =>
       '#0F52BA', // Sapphire Blue
       '#FAFAFA', // Off White lightening the blend
       '#B8860B', // Metallic Gold
-    ].map(c => Skia.Color(c));
+    ].map((c) => Skia.Color(c));
 
     // Slight highlight shimmer for gold
     const goldHighlightPhase = (clock.current % 6000) / 6000;
-    const goldHighlightMix = 0.3 + 0.7 * Math.abs(Math.sin(Math.PI * 2 * goldHighlightPhase));
+    const goldHighlightMix =
+      0.3 + 0.7 * Math.abs(Math.sin(Math.PI * 2 * goldHighlightPhase));
     const highlightGold = Skia.Color('#FFF2C2');
 
     const vividColors = baseColors.map((col, idx) => {
@@ -111,7 +110,7 @@ export const LexxiSplashScreen: React.FC<LexxiSplashScreenProps> = ({onDone}) =>
       height / 2 - radius * Math.sin(angle),
     );
 
-    return {start, end, colors: vividColors};
+    return { start, end, colors: vividColors };
   }, [clock, progress]);
 
   // "Lexxi" stroke path – placeholder; swap with real SVG path later
@@ -129,7 +128,7 @@ export const LexxiSplashScreen: React.FC<LexxiSplashScreenProps> = ({onDone}) =>
 
   const proStyle = useAnimatedStyle(() => ({
     opacity: proOpacity.value,
-    transform: [{scale: proScale.value}],
+    transform: [{ scale: proScale.value }],
   }));
 
   return (
@@ -147,9 +146,10 @@ export const LexxiSplashScreen: React.FC<LexxiSplashScreenProps> = ({onDone}) =>
         {/* Metallic Gold vein behind logo */}
         <Group
           transform={[
-            {translateX: width * 0.1},
-            {translateY: height * 0.32},
-          ]}>
+            { translateX: width * 0.1 },
+            { translateY: height * 0.32 },
+          ]}
+        >
           <Rect x={0} y={0} width={width * 0.8} height={8} opacity={0.45}>
             <LinearGradient
               start={vec(0, 0)}
@@ -174,8 +174,8 @@ export const LexxiSplashScreen: React.FC<LexxiSplashScreenProps> = ({onDone}) =>
           dash={[lexxiLength, lexxiLength]}
           dashOffset={dashOffset}
           transform={[
-            {translateX: width / 2 - 130},
-            {translateY: height / 2 - 30},
+            { translateX: width / 2 - 130 },
+            { translateY: height / 2 - 30 },
           ]}
         />
       </Canvas>
@@ -189,7 +189,8 @@ export const LexxiSplashScreen: React.FC<LexxiSplashScreenProps> = ({onDone}) =>
             left: width / 2 + 44,
           },
           proStyle,
-        ]}>
+        ]}
+      >
         <Animated.Text style={styles.proText}>Pro</Animated.Text>
         <View style={styles.proUnderline} />
       </Animated.View>

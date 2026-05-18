@@ -1,7 +1,8 @@
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 
 // Device dimensions
-export const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
+export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } =
+  Dimensions.get('window');
 export const IS_IPAD = SCREEN_WIDTH >= 768;
 
 // Color Palette
@@ -151,21 +152,21 @@ export const LAYOUT = {
   shadow: {
     light: {
       shadowColor: '#000',
-      shadowOffset: {width: 0, height: 2},
+      shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.08,
       shadowRadius: 4,
       elevation: 2,
     },
     medium: {
       shadowColor: '#000',
-      shadowOffset: {width: 0, height: 4},
+      shadowOffset: { width: 0, height: 4 },
       shadowOpacity: 0.12,
       shadowRadius: 8,
       elevation: 4,
     },
     heavy: {
       shadowColor: COLORS.champagneGold,
-      shadowOffset: {width: 0, height: 8},
+      shadowOffset: { width: 0, height: 8 },
       shadowOpacity: 0.3,
       shadowRadius: 16,
       elevation: 8,
@@ -256,7 +257,7 @@ export const COMPONENT_STYLES = {
     borderWidth: 2,
     borderColor: COLORS.champagneGold,
     shadowColor: COLORS.champagneGold,
-    shadowOffset: {width: 0, height: 0},
+    shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
@@ -274,14 +275,14 @@ export const COMPONENT_STYLES = {
   colorSwatchSelected: {
     borderWidth: 4,
     borderColor: COLORS.champagneGold,
-    transform: [{scale: 1.1}],
+    transform: [{ scale: 1.1 }],
   },
 } as const;
 
 // Brand Assets
 export const BRAND = {
   name: 'Lexxi AI Pro Color Formulation',
-  tagline: 'Show them. Don\'t tell them.',
+  tagline: "Show them. Don't tell them.",
   logo: {
     fontFamily: 'serif',
     fontSize: 24,

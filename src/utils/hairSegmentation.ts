@@ -1,11 +1,11 @@
 // MediaPipe Hair Segmentation Integration
-import {FilesetResolver, ImageSegmenter} from '@mediapipe/tasks-vision';
+import { FilesetResolver, ImageSegmenter } from '@mediapipe/tasks-vision';
 
 let hairSegmenter: ImageSegmenter | null = null;
 
 export async function initializeHairSegmentation() {
   const vision = await FilesetResolver.forVisionTasks(
-    'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm'
+    'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm',
   );
 
   hairSegmenter = await ImageSegmenter.createFromOptions(vision, {
@@ -31,7 +31,7 @@ export interface HairSegmentationResult {
 
 export function segmentHair(
   imageData: ImageData,
-  timestamp: number
+  timestamp: number,
 ): HairSegmentationResult | null {
   if (!hairSegmenter) {
     console.error('Hair segmenter not initialized');
@@ -40,14 +40,14 @@ export function segmentHair(
 
   try {
     const result = hairSegmenter.segmentForVideo(imageData, timestamp);
-    
+
     if (!result.categoryMask) {
       return null;
     }
 
     const mask = result.categoryMask.getAsUint8Array();
     const hairMask = new Uint8ClampedArray(mask.length);
-    
+
     for (let i = 0; i < mask.length; i++) {
       hairMask[i] = mask[i] === 1 ? 255 : 0;
     }
@@ -68,13 +68,13 @@ export function applyColorToHair(
   originalImage: ImageData,
   hairMask: Uint8ClampedArray,
   colorHex: string,
-  blendStrength: number = 0.7
+  blendStrength: number = 0.7,
 ): ImageData {
-  const {width, height, data} = originalImage;
+  const { width, height, data } = originalImage;
   const coloredImage = new ImageData(
     new Uint8ClampedArray(data),
     width,
-    height
+    height,
   );
 
   const r = parseInt(colorHex.slice(1, 3), 16);
@@ -85,17 +85,14 @@ export function applyColorToHair(
     if (hairMask[i] > 128) {
       const pixelIndex = i * 4;
 
-      const blendedR = Math.min(
-        255,
-        (coloredImage.data[pixelIndex] * r) / 255
-      );
+      const blendedR = Math.min(255, (coloredImage.data[pixelIndex] * r) / 255);
       const blendedG = Math.min(
         255,
-        (coloredImage.data[pixelIndex + 1] * g) / 255
+        (coloredImage.data[pixelIndex + 1] * g) / 255,
       );
       const blendedB = Math.min(
         255,
-        (coloredImage.data[pixelIndex + 2] * b) / 255
+        (coloredImage.data[pixelIndex + 2] * b) / 255,
       );
 
       coloredImage.data[pixelIndex] =

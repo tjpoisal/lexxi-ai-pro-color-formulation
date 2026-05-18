@@ -1,12 +1,15 @@
 import React from 'react';
-import {Alert} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import { Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import ComprehensiveConsent from '../components/ComprehensiveConsent';
 
 export default function ConsentScreen() {
   const navigation = useNavigation();
 
-  const handleConsentComplete = (signatures: {client: string; stylist: string}) => {
+  const handleConsentComplete = (signatures: {
+    client: string;
+    stylist: string;
+  }) => {
     // Process signature data here if needed
     console.log('Signatures captured:', signatures);
 
@@ -21,7 +24,7 @@ export default function ConsentScreen() {
             navigation.navigate('Home' as never);
           },
         },
-      ]
+      ],
     );
   };
 
@@ -31,7 +34,7 @@ export default function ConsentScreen() {
       stylistName="Alex Rivera"
       serviceDescription="Warm Caramel Balayage with toner refresh"
       formula="Redken Shades EQ 06NB + Wella Blondor Multi-Blonde + Wella Color Touch toner"
-      cost={207.50}
+      cost={207.5}
       onComplete={handleConsentComplete}
     />
   );

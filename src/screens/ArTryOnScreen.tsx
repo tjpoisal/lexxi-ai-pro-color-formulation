@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   StyleSheet,
@@ -8,11 +8,20 @@ import {
   Dimensions,
   Alert,
 } from 'react-native';
-import {Camera, useCameraDevice, useFrameProcessor} from 'react-native-vision-camera';
-import {Canvas, Group, Image as SkiaImage, Paint} from '@shopify/react-native-skia';
-import {runAsync, useSharedValue} from 'react-native-reanimated';
+import {
+  Camera,
+  useCameraDevice,
+  useFrameProcessor,
+} from 'react-native-vision-camera';
+import {
+  Canvas,
+  Group,
+  Image as SkiaImage,
+  Paint,
+} from '@shopify/react-native-skia';
+import { runAsync, useSharedValue } from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {PROFESSIONAL_COLORS, type HairColor} from '../data/colors';
+import { PROFESSIONAL_COLORS, type HairColor } from '../data/colors';
 import {
   fetchColorDetail,
   fetchConversions,
@@ -20,13 +29,13 @@ import {
   type ConversionSuggestion,
 } from '../api/haircolor';
 
-const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 const ALLERGEN_FILTERS = ['PPD', 'PTDS', 'resorcinol', 'fragrance'];
 const HAIR_COLORS: HairColor[] = PROFESSIONAL_COLORS;
 
 // Hair segmentation function (placeholder - implement with MediaPipe or native bridge)
-function segmentHair(frame: unknown) {
+function segmentHair(_frame: unknown) {
   'worklet';
   // MediaPipe Hair Segmentation integration
   // Returns binary mask of hair region
@@ -37,12 +46,14 @@ function segmentHair(frame: unknown) {
 export default function ArTryOnScreen() {
   const [selectedColor, setSelectedColor] = useState<HairColor>(HAIR_COLORS[0]);
   const [hasPermission, setHasPermission] = useState(false);
-  const [hairMask, setHairMask] = useState<unknown | null>(null);
+  const [hairMask, _setHairMask] = useState<unknown | null>(null);
   const [beforePhoto, setBeforePhoto] = useState<unknown | null>(null);
   const [showComparison, setShowComparison] = useState(false);
   const [colorDetail, setColorDetail] = useState<HairColorDetail | null>(null);
   const [conversions, setConversions] = useState<ConversionSuggestion[]>([]);
-  const [openSection, setOpenSection] = useState<'technical' | 'safety' | 'conversions' | null>('technical');
+  const [openSection, setOpenSection] = useState<
+    'technical' | 'safety' | 'conversions' | null
+  >('technical');
   const [hiddenAllergens, setHiddenAllergens] = useState<string[]>([]);
 
   const device = useCameraDevice('front');
@@ -76,8 +87,10 @@ export default function ArTryOnScreen() {
   const loadSavedColor = async () => {
     const savedColorId = await AsyncStorage.getItem('lastUsedColor');
     if (savedColorId) {
-      const color = HAIR_COLORS.find(c => c.id === savedColorId);
-      if (color) setSelectedColor(color);
+      const color = HAIR_COLORS.find((c) => c.id === savedColorId);
+      if (color) {
+        setSelectedColor(color);
+      }
     }
   };
 
@@ -91,7 +104,7 @@ export default function ArTryOnScreen() {
   };
 
   // MediaPipe Hair Segmentation Frame Processor
-  const frameProcessor = useFrameProcessor(frame => {
+  const frameProcessor = useFrameProcessor((frame) => {
     'worklet';
     runAsync(frame, () => {
       'worklet';
@@ -117,16 +130,18 @@ export default function ArTryOnScreen() {
   };
 
   const toggleAllergen = (allergen: string) => {
-    setHiddenAllergens(prev =>
+    setHiddenAllergens((prev) =>
       prev.includes(allergen)
-        ? prev.filter(a => a !== allergen)
+        ? prev.filter((a) => a !== allergen)
         : [...prev, allergen],
     );
   };
 
-  const visibleColors = HAIR_COLORS.filter(color => {
-    if (!color.allergens || color.allergens.length === 0) return true;
-    return !color.allergens.some(a => hiddenAllergens.includes(a));
+  const visibleColors = HAIR_COLORS.filter((color) => {
+    if (!color.allergens || color.allergens.length === 0) {
+      return true;
+    }
+    return !color.allergens.some((a) => hiddenAllergens.includes(a));
   });
 
   if (!hasPermission) {
@@ -167,7 +182,11 @@ export default function ArTryOnScreen() {
               height={SCREEN_HEIGHT}
               fit="cover"
             >
-              <Paint color={selectedColor.hex} blendMode="multiply" opacity={0.7} />
+              <Paint
+                color={selectedColor.hex}
+                blendMode="multiply"
+                opacity={0.7}
+              />
             </SkiaImage>
           </Group>
         )}
@@ -192,26 +211,58 @@ export default function ArTryOnScreen() {
         {/* Metadata Tabs */}
         <View style={styles.tabsRow}>
           <TouchableOpacity
-            style={[styles.tabButton, openSection === 'technical' && styles.tabButtonActive]}
-            onPress={() => setOpenSection(openSection === 'technical' ? null : 'technical')}>
+            style={[
+              styles.tabButton,
+              openSection === 'technical' && styles.tabButtonActive,
+            ]}
+            onPress={() =>
+              setOpenSection(openSection === 'technical' ? null : 'technical')
+            }
+          >
             <Text
-              style={[styles.tabButtonText, openSection === 'technical' && styles.tabButtonTextActive]}>
+              style={[
+                styles.tabButtonText,
+                openSection === 'technical' && styles.tabButtonTextActive,
+              ]}
+            >
               Technical / Formula
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.tabButton, openSection === 'safety' && styles.tabButtonActive]}
-            onPress={() => setOpenSection(openSection === 'safety' ? null : 'safety')}>
+            style={[
+              styles.tabButton,
+              openSection === 'safety' && styles.tabButtonActive,
+            ]}
+            onPress={() =>
+              setOpenSection(openSection === 'safety' ? null : 'safety')
+            }
+          >
             <Text
-              style={[styles.tabButtonText, openSection === 'safety' && styles.tabButtonTextActive]}>
+              style={[
+                styles.tabButtonText,
+                openSection === 'safety' && styles.tabButtonTextActive,
+              ]}
+            >
               Safety & Allergens
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.tabButton, openSection === 'conversions' && styles.tabButtonActive]}
-            onPress={() => setOpenSection(openSection === 'conversions' ? null : 'conversions')}>
+            style={[
+              styles.tabButton,
+              openSection === 'conversions' && styles.tabButtonActive,
+            ]}
+            onPress={() =>
+              setOpenSection(
+                openSection === 'conversions' ? null : 'conversions',
+              )
+            }
+          >
             <Text
-              style={[styles.tabButtonText, openSection === 'conversions' && styles.tabButtonTextActive]}>
+              style={[
+                styles.tabButtonText,
+                openSection === 'conversions' && styles.tabButtonTextActive,
+              ]}
+            >
               Conversions
             </Text>
           </TouchableOpacity>
@@ -231,14 +282,18 @@ export default function ArTryOnScreen() {
                   <Text style={styles.tabText}>{selectedColor.usageNotes}</Text>
                 )}
                 {colorDetail?.developerGuidance && (
-                  <Text style={styles.tabText}>{colorDetail.developerGuidance}</Text>
+                  <Text style={styles.tabText}>
+                    {colorDetail.developerGuidance}
+                  </Text>
                 )}
               </>
             )}
             {openSection === 'safety' && (
               <>
                 {selectedColor.ingredientsSummary && (
-                  <Text style={styles.tabText}>{selectedColor.ingredientsSummary}</Text>
+                  <Text style={styles.tabText}>
+                    {selectedColor.ingredientsSummary}
+                  </Text>
                 )}
                 <Text style={styles.tabText}>
                   Allergens:{' '}
@@ -256,11 +311,17 @@ export default function ArTryOnScreen() {
             {openSection === 'conversions' && (
               <>
                 {conversions.length === 0 ? (
-                  <Text style={styles.tabText}>No conversions available for this shade.</Text>
+                  <Text style={styles.tabText}>
+                    No conversions available for this shade.
+                  </Text>
                 ) : (
-                  conversions.map(conv => {
-                    const target = HAIR_COLORS.find(c => c.id === conv.targetId);
-                    if (!target) return null;
+                  conversions.map((conv) => {
+                    const target = HAIR_COLORS.find(
+                      (c) => c.id === conv.targetId,
+                    );
+                    if (!target) {
+                      return null;
+                    }
                     return (
                       <Text key={conv.targetId} style={styles.tabText}>
                         → {target.brand} {target.name} ({target.line ?? ''})
@@ -278,15 +339,23 @@ export default function ArTryOnScreen() {
           <Text style={styles.allergenLabel}>Hide allergens:</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={styles.allergenChipsRow}>
-              {ALLERGEN_FILTERS.map(allergen => {
+              {ALLERGEN_FILTERS.map((allergen) => {
                 const active = hiddenAllergens.includes(allergen);
                 return (
                   <TouchableOpacity
                     key={allergen}
-                    style={[styles.allergenChip, active && styles.allergenChipActive]}
-                    onPress={() => toggleAllergen(allergen)}>
+                    style={[
+                      styles.allergenChip,
+                      active && styles.allergenChipActive,
+                    ]}
+                    onPress={() => toggleAllergen(allergen)}
+                  >
                     <Text
-                      style={[styles.allergenChipText, active && styles.allergenChipTextActive]}>
+                      style={[
+                        styles.allergenChipText,
+                        active && styles.allergenChipTextActive,
+                      ]}
+                    >
                       {allergen}
                     </Text>
                   </TouchableOpacity>
@@ -299,17 +368,19 @@ export default function ArTryOnScreen() {
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.colorPicker}>
-          {visibleColors.map(color => (
+          contentContainerStyle={styles.colorPicker}
+        >
+          {visibleColors.map((color) => (
             <TouchableOpacity
               key={color.id}
               style={[
                 styles.colorSwatch,
-                {backgroundColor: color.hex},
+                { backgroundColor: color.hex },
                 selectedColor.id === color.id && styles.selectedSwatch,
               ]}
               onPress={() => handleColorSelect(color)}
-              activeOpacity={0.8}>
+              activeOpacity={0.8}
+            >
               {selectedColor.id === color.id && (
                 <View style={styles.checkmark}>
                   <Text style={styles.checkmarkText}>✓</Text>
@@ -390,7 +461,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: '#FAFAFA',
     textShadowColor: 'rgba(0, 0, 0, 0.5)',
-    textShadowOffset: {width: 0, height: 2},
+    textShadowOffset: { width: 0, height: 2 },
     textShadowRadius: 4,
   },
   subtitle: {
@@ -398,7 +469,7 @@ const styles = StyleSheet.create({
     color: '#FAFAFA',
     marginTop: 4,
     textShadowColor: 'rgba(0, 0, 0, 0.5)',
-    textShadowOffset: {width: 0, height: 1},
+    textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 2,
   },
   bottomContainer: {

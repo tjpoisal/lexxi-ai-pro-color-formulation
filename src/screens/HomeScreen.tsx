@@ -3,24 +3,30 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   SafeAreaView,
   TouchableOpacity,
   Dimensions,
   Animated,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {Button, Card} from '../components/ui';
-import {useFadeIn} from '../hooks/useFadeIn';
-import {COLORS, TYPOGRAPHY, SPACING, LAYOUT, BRAND, IS_IPAD} from '../config/theme';
+import { useNavigation } from '@react-navigation/native';
+import { Button, Card } from '../components/ui';
+import { useFadeIn } from '../hooks/useFadeIn';
+import {
+  COLORS,
+  TYPOGRAPHY,
+  SPACING,
+  LAYOUT,
+  BRAND,
+  IS_IPAD,
+} from '../config/theme';
 
-const {width} = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 // Mock data for demonstration
 const recentClients = [
-  {id: '1', name: 'Sarah Martinez', lastService: 'Jan 10', avatar: 'SM'},
-  {id: '2', name: 'Emily Johnson', lastService: 'Jan 12', avatar: 'EJ'},
-  {id: '3', name: 'Jessica Chen', lastService: 'Jan 14', avatar: 'JC'},
+  { id: '1', name: 'Sarah Martinez', lastService: 'Jan 10', avatar: 'SM' },
+  { id: '2', name: 'Emily Johnson', lastService: 'Jan 12', avatar: 'EJ' },
+  { id: '3', name: 'Jessica Chen', lastService: 'Jan 14', avatar: 'JC' },
 ];
 
 const todaysStats = {
@@ -68,7 +74,7 @@ export default function HomeScreen() {
       </View>
 
       <Animated.ScrollView
-        style={[styles.scrollView, {opacity: fadeAnim}]}
+        style={[styles.scrollView, { opacity: fadeAnim }]}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
@@ -111,7 +117,9 @@ export default function HomeScreen() {
               <Text style={styles.statLabel}>Bookings</Text>
             </Card>
             <Card style={styles.statCard}>
-              <Text style={styles.statNumber}>{todaysStats.conversionRate}%</Text>
+              <Text style={styles.statNumber}>
+                {todaysStats.conversionRate}%
+              </Text>
               <Text style={styles.statLabel}>Conversion</Text>
             </Card>
           </View>
@@ -128,7 +136,10 @@ export default function HomeScreen() {
               <Text style={styles.quickActionIcon}>👥</Text>
               <Text style={styles.quickActionText}>Clients</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.quickAction} onPress={goToAnalytics}>
+            <TouchableOpacity
+              style={styles.quickAction}
+              onPress={goToAnalytics}
+            >
               <Text style={styles.quickActionIcon}>📊</Text>
               <Text style={styles.quickActionText}>Analytics</Text>
             </TouchableOpacity>

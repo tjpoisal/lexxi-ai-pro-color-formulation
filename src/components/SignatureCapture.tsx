@@ -1,8 +1,8 @@
-import React, {useRef} from 'react';
-import {View, TouchableOpacity, Text, StyleSheet} from 'react-native';
+import React, { useRef } from 'react';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import SignatureCanvas from 'react-native-signature-canvas';
 
-export default function SignatureCapture({onSigned}) {
+export default function SignatureCapture({ onSigned }) {
   const ref = useRef(null);
 
   const handleEnd = (signature) => {
@@ -19,7 +19,10 @@ export default function SignatureCapture({onSigned}) {
           .m-signature-pad--footer {display: none;}
         `}
       />
-      <TouchableOpacity style={styles.clear} onPress={() => ref.current?.clearSignature()}>
+      <TouchableOpacity
+        style={styles.clear}
+        onPress={() => ref.current?.clearSignature()}
+      >
         <Text style={styles.clearText}>Clear</Text>
       </TouchableOpacity>
     </View>
@@ -27,7 +30,12 @@ export default function SignatureCapture({onSigned}) {
 }
 
 const styles = StyleSheet.create({
-  container: {height: 200, margin: 20},
-  clear: {marginTop: 10, padding: 10, backgroundColor: '#E5E7EB', borderRadius: 4},
-  clearText: {textAlign: 'center', fontWeight: 'bold', color: '#374151'},
+  container: { height: 200, margin: 20 },
+  clear: {
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: '#E5E7EB',
+    borderRadius: 4,
+  },
+  clearText: { textAlign: 'center', fontWeight: 'bold', color: '#374151' },
 });

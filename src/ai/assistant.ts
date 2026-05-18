@@ -2,7 +2,7 @@
 // - Rule-based suggestions derived from structured metadata.
 // - Interface for backend-hosted LLM consultations.
 
-import {PROFESSIONAL_COLORS, type HairColor} from '../data/colors';
+import { PROFESSIONAL_COLORS, type HairColor } from '../data/colors';
 
 export interface ConsultationInput {
   targetCategory: HairColor['category'];
@@ -19,12 +19,21 @@ export interface ConsultationSuggestion {
   rationale: string;
 }
 
-export function getRuleBasedConsultation(input: ConsultationInput): ConsultationSuggestion | null {
-  const avoidSet = new Set((input.avoidAllergens ?? []).map(a => a.toLowerCase()));
+export function getRuleBasedConsultation(
+  input: ConsultationInput,
+): ConsultationSuggestion | null {
+  const avoidSet = new Set(
+    (input.avoidAllergens ?? []).map((a) => a.toLowerCase()),
+  );
 
-  const candidates = PROFESSIONAL_COLORS.filter(color => {
-    if (color.category !== input.targetCategory) return false;
-    if (color.allergens && color.allergens.some(a => avoidSet.has(a.toLowerCase()))) {
+  const candidates = PROFESSIONAL_COLORS.filter((color) => {
+    if (color.category !== input.targetCategory) {
+      return false;
+    }
+    if (
+      color.allergens &&
+      color.allergens.some((a) => avoidSet.has(a.toLowerCase()))
+    ) {
       return false;
     }
     return true;
@@ -37,7 +46,9 @@ export function getRuleBasedConsultation(input: ConsultationInput): Consultation
   // Prefer preferred brands, then fall back.
   let sorted = candidates;
   if (input.preferredBrands?.length) {
-    const brandSet = new Set(input.preferredBrands.map(b => b.toLowerCase())) as Set<string>;
+    const brandSet = new Set(
+      input.preferredBrands.map((b) => b.toLowerCase()),
+    ) as Set<string>;
     sorted = [...candidates].sort((a, b) => {
       const aPref = brandSet.has(a.brand.toLowerCase()) ? 0 : 1;
       const bPref = brandSet.has(b.brand.toLowerCase()) ? 0 : 1;
@@ -50,7 +61,9 @@ export function getRuleBasedConsultation(input: ConsultationInput): Consultation
 
   const warnings: string[] = [];
   if (input.grayPercentage && input.grayPercentage > 40) {
-    warnings.push('High gray percentage detected; verify coverage claims and consider adding neutral/opaque shades.');
+    warnings.push(
+      'High gray percentage detected; verify coverage claims and consider adding neutral/opaque shades.',
+    );
   }
 
   const rationale = [
@@ -62,7 +75,7 @@ export function getRuleBasedConsultation(input: ConsultationInput): Consultation
     .filter(Boolean)
     .join(' ');
 
-  return {primaryFormula: primary, alternatives, warnings, rationale};
+  return { primaryFormula: primary, alternatives, warnings, rationale };
 }
 
 // Interface for backend-hosted LLM consultations.
@@ -90,5 +103,5 @@ export async function getLLMConsultation(
     baseSuggestion,
   });
 
-  return client.consult(systemPrompt, {user: userPrompt});
+  return client.consult(systemPrompt, { user: userPrompt });
 }

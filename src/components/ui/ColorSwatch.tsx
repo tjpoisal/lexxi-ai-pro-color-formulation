@@ -1,6 +1,12 @@
 import React from 'react';
-import {TouchableOpacity, StyleSheet, ViewStyle, Animated, Vibration} from 'react-native';
-import {COLORS} from '../../config/theme';
+import {
+  TouchableOpacity,
+  StyleSheet,
+  ViewStyle,
+  Animated,
+  Vibration,
+} from 'react-native';
+import { COLORS } from '../../config/theme';
 
 interface ColorSwatchProps {
   color: string;
@@ -19,7 +25,9 @@ export function ColorSwatch({
   style,
   disabled = false,
 }: ColorSwatchProps) {
-  const animatedValue = React.useRef(new Animated.Value(selected ? 1 : 0)).current;
+  const animatedValue = React.useRef(
+    new Animated.Value(selected ? 1 : 0),
+  ).current;
   const pressAnimatedValue = React.useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {
@@ -82,7 +90,7 @@ export function ColorSwatch({
     borderRadius: size / 2,
     backgroundColor: color,
     borderColor: selected ? COLORS.champagneGold : COLORS.lightGray,
-    transform: [{scale: combinedScale}],
+    transform: [{ scale: combinedScale }],
   };
 
   return (

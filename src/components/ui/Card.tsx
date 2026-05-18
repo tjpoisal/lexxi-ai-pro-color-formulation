@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, StyleSheet, ViewStyle} from 'react-native';
-import {COLORS, COMPONENT_STYLES, LAYOUT} from '../../config/theme';
+import { View, StyleSheet, ViewStyle } from 'react-native';
+import { COMPONENT_STYLES, LAYOUT } from '../../config/theme';
 
 interface CardProps {
   children: React.ReactNode;
@@ -30,16 +30,16 @@ export function Card({
     // Add padding
     switch (padding) {
       case 'sm':
-        baseStyle.push({padding: SPACING.sm});
+        baseStyle.push({ padding: SPACING.sm });
         break;
       case 'md':
-        baseStyle.push({padding: SPACING.md});
+        baseStyle.push({ padding: SPACING.md });
         break;
       case 'lg':
-        baseStyle.push({padding: LAYOUT.sectionSpacing});
+        baseStyle.push({ padding: LAYOUT.sectionSpacing });
         break;
       case 'xl':
-        baseStyle.push({padding: LAYOUT.screenPadding});
+        baseStyle.push({ padding: LAYOUT.screenPadding });
         break;
     }
 

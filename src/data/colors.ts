@@ -29,10 +29,12 @@ export const PROFESSIONAL_COLORS: HairColor[] = [
     level: '10/1',
     tone: 'ash',
     usageNotes: 'For natural levels 7–9; consider pre-lightening darker bases.',
-    ingredientsSummary: 'Oxidative permanent color with ammonia and conditioning agents.',
+    ingredientsSummary:
+      'Oxidative permanent color with ammonia and conditioning agents.',
     allergens: ['PPD', 'resorcinol', 'fragrance'],
     msdsUrl: 'https://www.wella.com/professional/en-US/msds/koleston-perfect',
-    technicalNotesUrl: 'https://www.wella.com/professional/en-US/education/koleston-perfect-guide',
+    technicalNotesUrl:
+      'https://www.wella.com/professional/en-US/education/koleston-perfect-guide',
   },
   {
     id: 'wella_beige_9',
@@ -43,7 +45,8 @@ export const PROFESSIONAL_COLORS: HairColor[] = [
     category: 'blonde',
     level: '9/03',
     tone: 'beige',
-    usageNotes: 'Ideal for level 7–9 bases; watch warmth on darker natural levels.',
+    usageNotes:
+      'Ideal for level 7–9 bases; watch warmth on darker natural levels.',
     ingredientsSummary: 'Permanent oxidative cream color.',
     allergens: ['PPD', 'resorcinol'],
     msdsUrl: 'https://www.wella.com/professional/en-US/msds/koleston-perfect',
@@ -58,7 +61,8 @@ export const PROFESSIONAL_COLORS: HairColor[] = [
     level: '10/69',
     tone: 'pearl',
     usageNotes: 'Use on pre-lightened pale yellow for best tone control.',
-    ingredientsSummary: 'Ammonia-based permanent color with microlight technology.',
+    ingredientsSummary:
+      'Ammonia-based permanent color with microlight technology.',
     allergens: ['PPD', 'resorcinol', 'fragrance'],
     msdsUrl: 'https://www.wella.com/professional/en-US/msds/illumina-color',
   },
@@ -127,7 +131,8 @@ export const PROFESSIONAL_COLORS: HairColor[] = [
     category: 'brown',
     level: '5.5',
     tone: 'mahogany',
-    usageNotes: 'For levels 4–6; rich tone, consider neutralizing warmth if needed.',
+    usageNotes:
+      'For levels 4–6; rich tone, consider neutralizing warmth if needed.',
     ingredientsSummary: 'Permanent cream color with Ionène G.',
     allergens: ['PPD', 'resorcinol', 'fragrance'],
     msdsUrl: 'https://www.lorealprofessionnel.com/us/msds',
@@ -141,7 +146,8 @@ export const PROFESSIONAL_COLORS: HairColor[] = [
     category: 'red',
     level: '7.4',
     tone: 'copper',
-    usageNotes: 'Best on levels 6–8; always perform a patch test with oxidative reds.',
+    usageNotes:
+      'Best on levels 6–8; always perform a patch test with oxidative reds.',
     ingredientsSummary: 'Permanent cream color.',
     allergens: ['PPD', 'resorcinol', 'fragrance'],
     msdsUrl: 'https://www.lorealprofessionnel.com/us/msds',
@@ -155,7 +161,8 @@ export const PROFESSIONAL_COLORS: HairColor[] = [
     category: 'red',
     level: '5.20',
     tone: 'burgundy',
-    usageNotes: 'Use on pre-pigmented or natural levels 4–6 for rich wine tones.',
+    usageNotes:
+      'Use on pre-pigmented or natural levels 4–6 for rich wine tones.',
     ingredientsSummary: 'Demi-permanent tone-on-tone color.',
     allergens: ['PTDS', 'fragrance'],
     msdsUrl: 'https://www.lorealprofessionnel.com/us/msds',
@@ -343,9 +350,9 @@ export const PROFESSIONAL_COLORS: HairColor[] = [
 ];
 
 export const COLOR_CATEGORIES = {
-  blonde: PROFESSIONAL_COLORS.filter(c => c.category === 'blonde'),
-  brown: PROFESSIONAL_COLORS.filter(c => c.category === 'brown'),
-  red: PROFESSIONAL_COLORS.filter(c => c.category === 'red'),
-  black: PROFESSIONAL_COLORS.filter(c => c.category === 'black'),
-  fashion: PROFESSIONAL_COLORS.filter(c => c.category === 'fashion'),
+  blonde: PROFESSIONAL_COLORS.filter((c) => c.category === 'blonde'),
+  brown: PROFESSIONAL_COLORS.filter((c) => c.category === 'brown'),
+  red: PROFESSIONAL_COLORS.filter((c) => c.category === 'red'),
+  black: PROFESSIONAL_COLORS.filter((c) => c.category === 'black'),
+  fashion: PROFESSIONAL_COLORS.filter((c) => c.category === 'fashion'),
 };

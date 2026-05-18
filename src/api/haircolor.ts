@@ -2,12 +2,12 @@
 // and safety information. These are designed to mirror a future backend
 // while providing local mocks for now.
 
-import type {HairColor} from '../data/colors';
+import type { HairColor } from '../data/colors';
 
 export interface HairColorDetail extends HairColor {
   ingredientsFull?: string[]; // optional, full INCI-style list
   developerGuidance?: string; // e.g. "20 vol on natural levels 6–7"
-  processingTimeMinutes?: {min: number; max: number};
+  processingTimeMinutes?: { min: number; max: number };
 }
 
 export interface ConversionSuggestion {
@@ -27,11 +27,14 @@ export interface AllergenInfo {
 // When API_BASE_URL is configured, functions will call a real HTTPS
 // backend with auth headers; otherwise they fall back to local data.
 
-import {PROFESSIONAL_COLORS} from '../data/colors';
-import {API_BASE_URL, hasBackend} from '../config/api';
-import {getSecureItem} from '../security/secureStorage';
+import { PROFESSIONAL_COLORS } from '../data/colors';
+import { API_BASE_URL, hasBackend } from '../config/api';
+import { getSecureItem } from '../security/secureStorage';
 
-async function authorizedFetch(path: string, init: RequestInit = {}): Promise<Response> {
+async function authorizedFetch(
+  path: string,
+  init: RequestInit = {},
+): Promise<Response> {
   const url = `${API_BASE_URL}${path}`;
   const token = await getSecureItem('authToken');
   const headers: Record<string, string> = {
@@ -39,15 +42,19 @@ async function authorizedFetch(path: string, init: RequestInit = {}): Promise<Re
     'Content-Type': 'application/json',
   };
   if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
+    headers.Authorization = `Bearer ${token}`;
   }
-  return fetch(url, {...init, headers});
+  return fetch(url, { ...init, headers });
 }
 
-export async function fetchColorDetail(id: string): Promise<HairColorDetail | null> {
+export async function fetchColorDetail(
+  id: string,
+): Promise<HairColorDetail | null> {
   if (hasBackend()) {
     try {
-      const resp = await authorizedFetch(`/haircolors/${encodeURIComponent(id)}`);
+      const resp = await authorizedFetch(
+        `/haircolors/${encodeURIComponent(id)}`,
+      );
       if (resp.ok) {
         return (await resp.json()) as HairColorDetail;
       }
@@ -57,22 +64,28 @@ export async function fetchColorDetail(id: string): Promise<HairColorDetail | nu
     }
   }
 
-  const base = PROFESSIONAL_COLORS.find(c => c.id === id);
-  if (!base) return null;
+  const base = PROFESSIONAL_COLORS.find((c) => c.id === id);
+  if (!base) {
+    return null;
+  }
 
   // Example: derive a simple processing suggestion based on level.
   const levelText = base.level ?? 'standard';
   return {
     ...base,
     developerGuidance: `Typical developer: 10–20 vol depending on base level for ${levelText}. Always follow manufacturer instructions.`,
-    processingTimeMinutes: {min: 20, max: 45},
+    processingTimeMinutes: { min: 20, max: 45 },
   };
 }
 
-export async function fetchConversions(sourceId: string): Promise<ConversionSuggestion[]> {
+export async function fetchConversions(
+  sourceId: string,
+): Promise<ConversionSuggestion[]> {
   if (hasBackend()) {
     try {
-      const resp = await authorizedFetch(`/haircolors/${encodeURIComponent(sourceId)}/conversions`);
+      const resp = await authorizedFetch(
+        `/haircolors/${encodeURIComponent(sourceId)}/conversions`,
+      );
       if (resp.ok) {
         return (await resp.json()) as ConversionSuggestion[];
       }
@@ -82,25 +95,33 @@ export async function fetchConversions(sourceId: string): Promise<ConversionSugg
     }
   }
 
-  const source = PROFESSIONAL_COLORS.find(c => c.id === sourceId);
-  if (!source) return [];
+  const source = PROFESSIONAL_COLORS.find((c) => c.id === sourceId);
+  if (!source) {
+    return [];
+  }
 
   // Simplified mock: suggest colors from other brands with same category and similar tone.
-  return PROFESSIONAL_COLORS
-    .filter(c => c.brand !== source.brand && c.category === source.category)
+  return PROFESSIONAL_COLORS.filter(
+    (c) => c.brand !== source.brand && c.category === source.category,
+  )
     .slice(0, 5)
-    .map(target => ({
+    .map((target) => ({
       sourceId,
       targetId: target.id,
       similarityScore: 0.7,
-      notes: 'Mock conversion; verify against manufacturer charts before real-world use.',
+      notes:
+        'Mock conversion; verify against manufacturer charts before real-world use.',
     }));
 }
 
-export async function searchAllergens(allergen: string): Promise<AllergenInfo | null> {
+export async function searchAllergens(
+  allergen: string,
+): Promise<AllergenInfo | null> {
   if (hasBackend()) {
     try {
-      const resp = await authorizedFetch(`/allergens/${encodeURIComponent(allergen)}`);
+      const resp = await authorizedFetch(
+        `/allergens/${encodeURIComponent(allergen)}`,
+      );
       if (resp.ok) {
         return (await resp.json()) as AllergenInfo;
       }
@@ -111,15 +132,18 @@ export async function searchAllergens(allergen: string): Promise<AllergenInfo | 
   }
 
   const lower = allergen.toLowerCase();
-  const presentInColorIds = PROFESSIONAL_COLORS
-    .filter(c => c.allergens?.some(a => a.toLowerCase() === lower))
-    .map(c => c.id);
+  const presentInColorIds = PROFESSIONAL_COLORS.filter((c) =>
+    c.allergens?.some((a) => a.toLowerCase() === lower),
+  ).map((c) => c.id);
 
-  if (!presentInColorIds.length) return null;
+  if (!presentInColorIds.length) {
+    return null;
+  }
 
   return {
     allergen,
     presentInColorIds,
-    notes: 'Based on metadata encoded in the app. Always confirm with official MSDS/SDS.',
+    notes:
+      'Based on metadata encoded in the app. Always confirm with official MSDS/SDS.',
   };
 }

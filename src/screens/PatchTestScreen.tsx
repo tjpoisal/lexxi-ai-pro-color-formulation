@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -8,27 +8,33 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {Button, Card} from '../components/ui';
-import {COLORS, TYPOGRAPHY, SPACING, LAYOUT} from '../config/theme';
+import { useNavigation } from '@react-navigation/native';
+import { Button, Card } from '../components/ui';
+import { COLORS, TYPOGRAPHY, SPACING, LAYOUT } from '../config/theme';
 
 // Mock data
 const patchTestReasons = [
-  {id: '1', reason: 'First-time client', active: true},
-  {id: '2', reason: 'New product line', active: true},
-  {id: '3', reason: 'Lightener formula', active: false},
-  {id: '4', reason: 'Allergic history', active: false},
+  { id: '1', reason: 'First-time client', active: true },
+  { id: '2', reason: 'New product line', active: true },
+  { id: '3', reason: 'Lightener formula', active: false },
+  { id: '4', reason: 'Allergic history', active: false },
 ];
 
 const products = [
-  {id: '1', name: 'Redken Shades EQ 06NB', brand: 'Redken'},
-  {id: '2', name: 'Wella Blondor Multi-Blonde', brand: 'Wella'},
-  {id: '3', name: 'Wella Color Touch 9/16', brand: 'Wella'},
-  {id: '4', name: 'Olaplex No.1', brand: 'Olaplex'},
+  { id: '1', name: 'Redken Shades EQ 06NB', brand: 'Redken' },
+  { id: '2', name: 'Wella Blondor Multi-Blonde', brand: 'Wella' },
+  { id: '3', name: 'Wella Color Touch 9/16', brand: 'Wella' },
+  { id: '4', name: 'Olaplex No.1', brand: 'Olaplex' },
 ];
 
 const availableTimes = [
-  '9:00 AM', '10:00 AM', '11:00 AM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM',
+  '9:00 AM',
+  '10:00 AM',
+  '11:00 AM',
+  '1:00 PM',
+  '2:00 PM',
+  '3:00 PM',
+  '4:00 PM',
 ];
 
 export default function PatchTestScreen() {
@@ -50,7 +56,7 @@ export default function PatchTestScreen() {
           text: 'OK',
           onPress: () => navigation.navigate('Home' as never),
         },
-      ]
+      ],
     );
   };
 
@@ -101,9 +107,17 @@ export default function PatchTestScreen() {
             {patchTestReasons.map((reason) => (
               <View
                 key={reason.id}
-                style={[styles.reasonChip, reason.active && styles.reasonChipActive]}
+                style={[
+                  styles.reasonChip,
+                  reason.active && styles.reasonChipActive,
+                ]}
               >
-                <Text style={[styles.reasonText, reason.active && styles.reasonTextActive]}>
+                <Text
+                  style={[
+                    styles.reasonText,
+                    reason.active && styles.reasonTextActive,
+                  ]}
+                >
                   {reason.reason}
                 </Text>
               </View>
@@ -136,17 +150,27 @@ export default function PatchTestScreen() {
             Must be at least 48 hours before service date
           </Text>
           <View style={styles.dateOptions}>
-            {['Today', 'Tomorrow', formatDate(getEarliestDate())].map((date) => (
-              <TouchableOpacity
-                key={date}
-                style={[styles.dateOption, selectedDate === date && styles.dateOptionSelected]}
-                onPress={() => setSelectedDate(date)}
-              >
-                <Text style={[styles.dateOptionText, selectedDate === date && styles.dateOptionTextSelected]}>
-                  {date}
-                </Text>
-              </TouchableOpacity>
-            ))}
+            {['Today', 'Tomorrow', formatDate(getEarliestDate())].map(
+              (date) => (
+                <TouchableOpacity
+                  key={date}
+                  style={[
+                    styles.dateOption,
+                    selectedDate === date && styles.dateOptionSelected,
+                  ]}
+                  onPress={() => setSelectedDate(date)}
+                >
+                  <Text
+                    style={[
+                      styles.dateOptionText,
+                      selectedDate === date && styles.dateOptionTextSelected,
+                    ]}
+                  >
+                    {date}
+                  </Text>
+                </TouchableOpacity>
+              ),
+            )}
           </View>
         </View>
 
@@ -157,10 +181,18 @@ export default function PatchTestScreen() {
             {availableTimes.map((time) => (
               <TouchableOpacity
                 key={time}
-                style={[styles.timeSlot, selectedTime === time && styles.timeSlotSelected]}
+                style={[
+                  styles.timeSlot,
+                  selectedTime === time && styles.timeSlotSelected,
+                ]}
                 onPress={() => setSelectedTime(time)}
               >
-                <Text style={[styles.timeSlotText, selectedTime === time && styles.timeSlotTextSelected]}>
+                <Text
+                  style={[
+                    styles.timeSlotText,
+                    selectedTime === time && styles.timeSlotTextSelected,
+                  ]}
+                >
                   {time}
                 </Text>
               </TouchableOpacity>
@@ -192,7 +224,9 @@ export default function PatchTestScreen() {
                 <Text style={styles.timelineDate}>
                   {formatDate(getServiceDate())}
                 </Text>
-                <Text style={styles.timelineDesc}>Full color service (2.5 hours)</Text>
+                <Text style={styles.timelineDesc}>
+                  Full color service (2.5 hours)
+                </Text>
               </View>
             </View>
           </View>
@@ -207,7 +241,8 @@ export default function PatchTestScreen() {
             style={styles.scheduleButton}
           />
           <Text style={styles.scheduleNote}>
-            Client will receive automated SMS reminders at 24h and 2h before appointment.
+            Client will receive automated SMS reminders at 24h and 2h before
+            appointment.
           </Text>
         </View>
       </ScrollView>

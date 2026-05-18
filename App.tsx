@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {LexxiSplashScreen} from './src/components/LexxiSplashScreen';
+import { LexxiSplashScreen } from './src/components/LexxiSplashScreen';
 import AppNavigator from './src/navigation/AppNavigator';
 
 export default function AppRoot() {
