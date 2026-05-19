@@ -15,6 +15,10 @@
   "dependencies": {
     "react": "18.2.0",
     "react-native": "0.73.2",
+    "@react-navigation/native": "^6.1.9",
+    "@react-navigation/native-stack": "^6.9.17",
+    "react-native-screens": "^3.29.0",
+    "react-native-safe-area-context": "^4.8.2",
     "react-native-vision-camera": "^3.9.0",
     "@mediapipe/tasks-vision": "^0.10.8",
     "@shopify/react-native-skia": "^1.0.0",
@@ -41,6 +45,10 @@
     "jest": "^29.7.0",
     "prettier": "^3.1.1",
     "typescript": "^5.3.3"
+  },
+  "jest": {
+    "preset": "react-native",
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
   },
   "engines": {
     "node": ">=18",
