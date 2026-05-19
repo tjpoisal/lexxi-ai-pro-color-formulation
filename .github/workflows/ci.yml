@@ -20,9 +20,35 @@ jobs:
 
       - name: Install dependencies
         run: npm install --no-audit
+        timeout-minutes: 15
+
+      - name: Generate package-lock.json if missing
+        run: |
+          if [ ! -f package-lock.json ]; then
+            echo "package-lock.json not found — running npm install to generate it"
+            npm install --package-lock-only --no-audit
+          fi
 
       - name: Lint
         run: npm run lint
+        timeout-minutes: 5
 
       - name: Test
         run: npm test -- --passWithNoTests --watchAll=false
+        timeout-minutes: 10
+
+  check-lockfile:
+    name: Verify package-lock.json present
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check lockfile
+        run: |
+          if [ ! -f package-lock.json ]; then
+            echo "::warning::package-lock.json is missing. Run 'npm install' locally and commit it for reproducible CI builds."
+          else
+            echo "package-lock.json found."
+          fi
