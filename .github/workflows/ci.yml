@@ -19,10 +19,14 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm install --no-audit
+        # React Native 0.73 has peer dep conflicts under strict npm resolution
+        run: npm install --legacy-peer-deps --no-audit
+        timeout-minutes: 15
 
       - name: Lint
         run: npm run lint
+        timeout-minutes: 5
 
       - name: Test
         run: npm test -- --passWithNoTests --watchAll=false
+        timeout-minutes: 10
