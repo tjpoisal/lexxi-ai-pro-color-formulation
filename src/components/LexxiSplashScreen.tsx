@@ -4,8 +4,6 @@ import {
   Canvas,
   Rect,
   vec,
-  useClockValue,
-  useComputedValue,
   LinearGradient,
   Path,
   Skia,
@@ -16,6 +14,9 @@ import Animated, {
   withSpring,
   withTiming,
   useAnimatedStyle,
+  withRepeat,
+  Easing,
+  useDerivedValue,
 } from 'react-native-reanimated';
 
 const {width, height} = Dimensions.get('window');
@@ -33,7 +34,7 @@ interface LexxiSplashScreenProps {
 }
 
 export const LexxiSplashScreen: React.FC<LexxiSplashScreenProps> = ({onDone}) => {
-  const clock = useClockValue();
+  const clock = useSharedValue(0);
 
   // Overall 0–1 progress over ~4s
   const progress = useSharedValue(0);
@@ -43,6 +44,12 @@ export const LexxiSplashScreen: React.FC<LexxiSplashScreenProps> = ({onDone}) =>
   const proOpacity = useSharedValue(0);
 
   useEffect(() => {
+    clock.value = withRepeat(
+      withTiming(100000, {duration: 100000, easing: Easing.linear}),
+      -1,
+      false,
+    );
+
     progress.value = withTiming(
       1,
       {duration: 4000},
@@ -59,27 +66,40 @@ export const LexxiSplashScreen: React.FC<LexxiSplashScreenProps> = ({onDone}) =>
     }, 3500);
 
     return () => clearTimeout(proTimer);
-  }, [onDone, progress, proScale, proOpacity]);
+  }, [onDone, progress, proScale, proOpacity, clock]);
 
-  // Animated Emerald + Sapphire + Metallic Gold gradient
-  const gradient = useComputedValue(() => {
-    const t = (clock.current % 10000) / 10000; // 0–1 over 10s
-    const vividness = 0.4 + 0.6 * progress.value; // 0.4 → 1.0
+  const gradientStart = useDerivedValue(() => {
+    const t = (clock.value % 10000) / 10000;
+    const radius = width * 0.3;
+    const angle = Math.PI * 2 * t;
+    return vec(
+      width / 2 + radius * Math.cos(angle),
+      height / 2 + radius * Math.sin(angle),
+    );
+  });
 
-    // Base stops: Emerald, Sapphire, soft Off White, soft Gold
-    const baseColors = [
-      '#0F6B5A', // Emerald Green (malachite core)
-      '#0F52BA', // Sapphire Blue
-      '#FAFAFA', // Off White lightening the blend
-      '#B8860B', // Metallic Gold
-    ].map(c => Skia.Color(c));
+  const gradientEnd = useDerivedValue(() => {
+    const t = (clock.value % 10000) / 10000;
+    const radius = width * 0.3;
+    const angle = Math.PI * 2 * t;
+    return vec(
+      width / 2 - radius * Math.cos(angle),
+      height / 2 - radius * Math.sin(angle),
+    );
+  });
 
-    // Slight highlight shimmer for gold
-    const goldHighlightPhase = (clock.current % 6000) / 6000;
-    const goldHighlightMix = 0.3 + 0.7 * Math.abs(Math.sin(Math.PI * 2 * goldHighlightPhase));
+  const gradientColors = useDerivedValue(() => {
+    const vividness = 0.4 + 0.6 * progress.value;
+    const goldHighlightPhase = (clock.value % 6000) / 6000;
+    const goldHighlightMix =
+      0.3 + 0.7 * Math.abs(Math.sin(Math.PI * 2 * goldHighlightPhase));
+
+    const baseColors = ['#0F6B5A', '#0F52BA', '#FAFAFA', '#B8860B'].map(c =>
+      Skia.Color(c),
+    );
     const highlightGold = Skia.Color('#FFF2C2');
 
-    const vividColors = baseColors.map((col, idx) => {
+    return baseColors.map((col, idx) => {
       const [r, g, b, a] = col.toBytes();
       const mix = vividness;
       const nr = r * mix + 250 * (1 - mix);
@@ -87,7 +107,6 @@ export const LexxiSplashScreen: React.FC<LexxiSplashScreenProps> = ({onDone}) =>
       const nb = b * mix + 250 * (1 - mix);
       let base = Skia.Color((nr << 24) | (ng << 16) | (nb << 8) | a);
 
-      // Boost the last (gold) stop with a moving highlight
       if (idx === baseColors.length - 1) {
         const [hr, hg, hb, ha] = highlightGold.toBytes();
         const [br, bg, bb] = base.toBytes();
@@ -99,20 +118,7 @@ export const LexxiSplashScreen: React.FC<LexxiSplashScreenProps> = ({onDone}) =>
 
       return base;
     });
-
-    const radius = width * 0.3;
-    const angle = Math.PI * 2 * t;
-    const start = vec(
-      width / 2 + radius * Math.cos(angle),
-      height / 2 + radius * Math.sin(angle),
-    );
-    const end = vec(
-      width / 2 - radius * Math.cos(angle),
-      height / 2 - radius * Math.sin(angle),
-    );
-
-    return {start, end, colors: vividColors};
-  }, [clock, progress]);
+  });
 
   // "Lexxi" stroke path – placeholder; swap with real SVG path later
   const lexxiPath = Skia.Path.Make();
@@ -120,12 +126,8 @@ export const LexxiSplashScreen: React.FC<LexxiSplashScreenProps> = ({onDone}) =>
   lexxiPath.cubicTo(20, 0, 60, 0, 80, 30);
   lexxiPath.cubicTo(110, 60, 150, 20, 190, 40);
   lexxiPath.cubicTo(210, 60, 240, 60, 260, 40);
-  const lexxiLength = lexxiPath.length();
 
-  const dashOffset = useComputedValue(
-    () => (1 - progress.value) * lexxiLength,
-    [progress],
-  );
+  const dashEnd = useDerivedValue(() => progress.value);
 
   const proStyle = useAnimatedStyle(() => ({
     opacity: proOpacity.value,
@@ -138,9 +140,9 @@ export const LexxiSplashScreen: React.FC<LexxiSplashScreenProps> = ({onDone}) =>
         {/* Flowing Emerald + Sapphire + Metallic Gold gradient */}
         <Rect x={0} y={0} width={width} height={height}>
           <LinearGradient
-            start={gradient.current.start}
-            end={gradient.current.end}
-            colors={gradient.current.colors}
+            start={gradientStart}
+            end={gradientEnd}
+            colors={gradientColors}
           />
         </Rect>
 
@@ -171,8 +173,8 @@ export const LexxiSplashScreen: React.FC<LexxiSplashScreenProps> = ({onDone}) =>
           color="#374151"
           strokeCap="round"
           strokeJoin="round"
-          dash={[lexxiLength, lexxiLength]}
-          dashOffset={dashOffset}
+          start={0}
+          end={dashEnd}
           transform={[
             {translateX: width / 2 - 130},
             {translateY: height / 2 - 30},

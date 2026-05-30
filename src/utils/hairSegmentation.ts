@@ -29,8 +29,11 @@ export interface HairSegmentationResult {
   confidence: number;
 }
 
+// Instead of ImageData (browser DOM type), use a plain object
+type ImageDataLike = {data: Uint8ClampedArray; width: number; height: number};
+
 export function segmentHair(
-  imageData: ImageData,
+  imageData: ImageDataLike,
   timestamp: number
 ): HairSegmentationResult | null {
   if (!hairSegmenter) {
@@ -39,15 +42,15 @@ export function segmentHair(
   }
 
   try {
-    const result = hairSegmenter.segmentForVideo(imageData, timestamp);
-    
+    const result = hairSegmenter.segmentForVideo(imageData as unknown as ImageData, timestamp);
+
     if (!result.categoryMask) {
       return null;
     }
 
     const mask = result.categoryMask.getAsUint8Array();
     const hairMask = new Uint8ClampedArray(mask.length);
-    
+
     for (let i = 0; i < mask.length; i++) {
       hairMask[i] = mask[i] === 1 ? 255 : 0;
     }
@@ -65,17 +68,14 @@ export function segmentHair(
 }
 
 export function applyColorToHair(
-  originalImage: ImageData,
+  originalImage: ImageDataLike,
   hairMask: Uint8ClampedArray,
   colorHex: string,
   blendStrength: number = 0.7
-): ImageData {
+): ImageDataLike {
   const {width, height, data} = originalImage;
-  const coloredImage = new ImageData(
-    new Uint8ClampedArray(data),
-    width,
-    height
-  );
+  const coloredData = new Uint8ClampedArray(data);
+  const coloredImage: ImageDataLike = {data: coloredData, width, height};
 
   const r = parseInt(colorHex.slice(1, 3), 16);
   const g = parseInt(colorHex.slice(3, 5), 16);
