@@ -3,5 +3,6 @@ module.exports = {
   extends: '@react-native',
   rules: {
     'prettier/prettier': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
   },
 };
