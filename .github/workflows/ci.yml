@@ -2,6 +2,7 @@ name: CI
 
 on:
   push:
+    branches: [main]
   pull_request:
 
 jobs:
@@ -16,12 +17,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
       - name: Install dependencies
         run: npm install --no-audit --ignore-scripts
 
       - name: Lint
         run: npm run lint
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+        continue-on-error: true
 
       - name: Test
         run: npm test -- --passWithNoTests --watchAll=false

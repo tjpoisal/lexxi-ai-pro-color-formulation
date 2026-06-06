@@ -3,7 +3,7 @@ module.exports = {
   extends: '@react-native',
   ignorePatterns: ['.eslintrc.js'],
   rules: {
-    'prettier/prettier': 'off',
-    '@typescript-eslint/no-unused-vars': 'off',
+    'prettier/prettier': 'warn',
+    '@typescript-eslint/no-unused-vars': 'warn',
   },
 };
