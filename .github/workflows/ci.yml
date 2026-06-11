@@ -21,7 +21,7 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm install --no-audit --ignore-scripts --legacy-peer-deps
+        run: npm install --no-audit --ignore-scripts
 
       - name: Lint
         run: npm run lint
