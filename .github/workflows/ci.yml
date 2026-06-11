@@ -21,7 +21,19 @@ jobs:
         run: npm install --no-audit --ignore-scripts
 
       - name: Lint
+        # ESLint exits 0 on warnings (only errors fail CI).
+        # @typescript-eslint/no-unused-vars is set to 'warn' so unused vars
+        # are surfaced in this output without blocking the build.
         run: npm run lint
 
       - name: Test
+        # --passWithNoTests keeps CI green until real tests are added.
+        # Remove that flag once the first test file is committed.
         run: npm test -- --passWithNoTests --watchAll=false
+
+      - name: Report lint summary
+        if: always()
+        run: |
+          echo "### Lint & Test complete" >> $GITHUB_STEP_SUMMARY
+          echo "- Lint: warnings are visible above (no-unused-vars is warn, not error)" >> $GITHUB_STEP_SUMMARY
+          echo "- Tests: passWithNoTests is active — add test files to src/__tests__/ to cover new logic" >> $GITHUB_STEP_SUMMARY
