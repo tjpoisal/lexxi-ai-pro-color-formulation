@@ -59,6 +59,15 @@ const mockFormula = {
   ],
 };
 
+function FormulaSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <View style={styles.formulaSection}>
+      <Text style={styles.sectionTitle}>{title}</Text>
+      {children}
+    </View>
+  );
+}
+
 export default function FormulaScreen() {
   const navigation = useNavigation();
 
@@ -73,13 +82,6 @@ export default function FormulaScreen() {
   const handleSave = () => {
     // Save to library
   };
-
-  const FormulaSection = ({ title, children }: { title: string; children: React.ReactNode }) => (
-    <View style={styles.formulaSection}>
-      <Text style={styles.sectionTitle}>{title}</Text>
-      {children}
-    </View>
-  );
 
   return (
     <SafeAreaView style={styles.container}>

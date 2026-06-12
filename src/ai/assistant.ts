@@ -23,7 +23,7 @@ export function getRuleBasedConsultation(input: ConsultationInput): Consultation
   const avoidSet = new Set((input.avoidAllergens ?? []).map(a => a.toLowerCase()));
 
   const candidates = PROFESSIONAL_COLORS.filter(color => {
-    if (color.category !== input.targetCategory) return false;
+    if (color.category !== input.targetCategory) {return false;}
     if (color.allergens && color.allergens.some(a => avoidSet.has(a.toLowerCase()))) {
       return false;
     }

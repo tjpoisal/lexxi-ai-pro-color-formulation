@@ -40,14 +40,14 @@ export function segmentHair(
 
   try {
     const result = hairSegmenter.segmentForVideo(imageData, timestamp);
-    
+
     if (!result.categoryMask) {
       return null;
     }
 
     const mask = result.categoryMask.getAsUint8Array();
     const hairMask = new Uint8ClampedArray(mask.length);
-    
+
     for (let i = 0; i < mask.length; i++) {
       hairMask[i] = mask[i] === 1 ? 255 : 0;
     }

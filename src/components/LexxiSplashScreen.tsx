@@ -85,6 +85,7 @@ export const LexxiSplashScreen: React.FC<LexxiSplashScreenProps> = ({onDone}) =>
       const nr = r * mix + 250 * (1 - mix);
       const ng = g * mix + 250 * (1 - mix);
       const nb = b * mix + 250 * (1 - mix);
+      // eslint-disable-next-line no-bitwise
       let base = Skia.Color((nr << 24) | (ng << 16) | (nb << 8) | a);
 
       // Boost the last (gold) stop with a moving highlight
@@ -94,6 +95,7 @@ export const LexxiSplashScreen: React.FC<LexxiSplashScreenProps> = ({onDone}) =>
         const mr = br * (1 - goldHighlightMix) + hr * goldHighlightMix;
         const mg = bg * (1 - goldHighlightMix) + hg * goldHighlightMix;
         const mb = bb * (1 - goldHighlightMix) + hb * goldHighlightMix;
+        // eslint-disable-next-line no-bitwise
         base = Skia.Color((mr << 24) | (mg << 16) | (mb << 8) | ha);
       }
 

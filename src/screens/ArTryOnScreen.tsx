@@ -77,7 +77,7 @@ export default function ArTryOnScreen() {
     const savedColorId = await AsyncStorage.getItem('lastUsedColor');
     if (savedColorId) {
       const color = HAIR_COLORS.find(c => c.id === savedColorId);
-      if (color) setSelectedColor(color);
+      if (color) {setSelectedColor(color);}
     }
   };
 
@@ -125,7 +125,7 @@ export default function ArTryOnScreen() {
   };
 
   const visibleColors = HAIR_COLORS.filter(color => {
-    if (!color.allergens || color.allergens.length === 0) return true;
+    if (!color.allergens || color.allergens.length === 0) {return true;}
     return !color.allergens.some(a => hiddenAllergens.includes(a));
   });
 
@@ -260,7 +260,7 @@ export default function ArTryOnScreen() {
                 ) : (
                   conversions.map(conv => {
                     const target = HAIR_COLORS.find(c => c.id === conv.targetId);
-                    if (!target) return null;
+                    if (!target) {return null;}
                     return (
                       <Text key={conv.targetId} style={styles.tabText}>
                         → {target.brand} {target.name} ({target.line ?? ''})

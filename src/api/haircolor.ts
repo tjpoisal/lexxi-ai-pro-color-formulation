@@ -39,7 +39,7 @@ async function authorizedFetch(path: string, init: RequestInit = {}): Promise<Re
     'Content-Type': 'application/json',
   };
   if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
+    headers.Authorization = `Bearer ${token}`;
   }
   return fetch(url, {...init, headers});
 }
@@ -58,7 +58,7 @@ export async function fetchColorDetail(id: string): Promise<HairColorDetail | nu
   }
 
   const base = PROFESSIONAL_COLORS.find(c => c.id === id);
-  if (!base) return null;
+  if (!base) {return null;}
 
   // Example: derive a simple processing suggestion based on level.
   const levelText = base.level ?? 'standard';
@@ -83,7 +83,7 @@ export async function fetchConversions(sourceId: string): Promise<ConversionSugg
   }
 
   const source = PROFESSIONAL_COLORS.find(c => c.id === sourceId);
-  if (!source) return [];
+  if (!source) {return [];}
 
   // Simplified mock: suggest colors from other brands with same category and similar tone.
   return PROFESSIONAL_COLORS
@@ -115,7 +115,7 @@ export async function searchAllergens(allergen: string): Promise<AllergenInfo | 
     .filter(c => c.allergens?.some(a => a.toLowerCase() === lower))
     .map(c => c.id);
 
-  if (!presentInColorIds.length) return null;
+  if (!presentInColorIds.length) {return null;}
 
   return {
     allergen,

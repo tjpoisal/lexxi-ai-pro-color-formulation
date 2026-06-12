@@ -27,34 +27,14 @@ const mockColors = [
   {id: '6', name: 'Jet Black', brand: 'Dark & Lovely', line: 'Beautiful Beginnings', hex: '#000000'},
 ];
 
-export default function ConsultationScreen() {
-  const navigation = useNavigation();
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedBrand, setSelectedBrand] = useState('Wella');
-  const [selectedColor, setSelectedColor] = useState(mockColors[0]);
-  const [beforeAfterMode, setBeforeAfterMode] = useState<'before' | 'after'>('after');
+interface CameraSectionProps {
+  cameraWidth: number;
+  beforeAfterMode: 'before' | 'after';
+  onBeforeAfterChange: (mode: 'before' | 'after') => void;
+}
 
-  const cameraWidth = IS_IPAD ? width * LAYOUT.cameraWidthRatio : width;
-  const controlsWidth = IS_IPAD ? width * LAYOUT.controlsWidthRatio : width;
-
-  const handleColorSelect = (color: typeof mockColors[0]) => {
-    setSelectedColor(color);
-  };
-
-  const handleGenerateFormula = () => {
-    // Navigate to formula output screen
-    navigation.navigate('Formula' as never);
-  };
-
-  const handleSave = () => {
-    // Save current consultation
-  };
-
-  const handleEmailPreview = () => {
-    // Show email preview
-  };
-
-  const CameraSection = () => (
+function CameraSection({ cameraWidth, beforeAfterMode, onBeforeAfterChange }: CameraSectionProps) {
+  return (
     <View style={[styles.cameraSection, {width: cameraWidth}]}>
       {/* Camera Feed Placeholder */}
       <View style={styles.cameraFeed}>
@@ -71,13 +51,13 @@ export default function ConsultationScreen() {
         <View style={styles.beforeAfterToggle}>
           <TouchableOpacity
             style={[styles.toggleButton, beforeAfterMode === 'before' && styles.toggleActive]}
-            onPress={() => setBeforeAfterMode('before')}
+            onPress={() => onBeforeAfterChange('before')}
           >
             <Text style={styles.toggleText}>Before</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.toggleButton, beforeAfterMode === 'after' && styles.toggleActive]}
-            onPress={() => setBeforeAfterMode('after')}
+            onPress={() => onBeforeAfterChange('after')}
           >
             <Text style={styles.toggleText}>After</Text>
           </TouchableOpacity>
@@ -90,8 +70,36 @@ export default function ConsultationScreen() {
       </View>
     </View>
   );
+}
 
-  const ControlsSection = () => (
+type ColorItem = typeof mockColors[0];
+
+interface ControlsSectionProps {
+  controlsWidth: number;
+  selectedColor: ColorItem;
+  selectedCategory: string;
+  onCategoryChange: (category: string) => void;
+  selectedBrand: string;
+  onBrandChange: (brand: string) => void;
+  onColorSelect: (color: ColorItem) => void;
+  onGenerateFormula: () => void;
+  onSave: () => void;
+  onEmailPreview: () => void;
+}
+
+function ControlsSection({
+  controlsWidth,
+  selectedColor,
+  selectedCategory,
+  onCategoryChange,
+  selectedBrand,
+  onBrandChange,
+  onColorSelect,
+  onGenerateFormula,
+  onSave,
+  onEmailPreview,
+}: ControlsSectionProps) {
+  return (
     <View style={[styles.controlsSection, {width: controlsWidth}]}>
       <ScrollView
         style={styles.controlsScroll}
@@ -132,7 +140,7 @@ export default function ConsultationScreen() {
                 styles.categoryTab,
                 selectedCategory === category && styles.categoryTabActive,
               ]}
-              onPress={() => setSelectedCategory(category)}
+              onPress={() => onCategoryChange(category)}
             >
               <Text
                 style={[
@@ -157,7 +165,7 @@ export default function ConsultationScreen() {
                   styles.brandPill,
                   selectedBrand === brand && styles.brandPillActive,
                 ]}
-                onPress={() => setSelectedBrand(brand)}
+                onPress={() => onBrandChange(brand)}
               >
                 <Text
                   style={[
@@ -185,7 +193,7 @@ export default function ConsultationScreen() {
                 key={color.id}
                 color={color.hex}
                 selected={selectedColor.id === color.id}
-                onPress={() => handleColorSelect(color)}
+                onPress={() => onColorSelect(color)}
               />
             ))}
           </ScrollView>
@@ -207,19 +215,19 @@ export default function ConsultationScreen() {
         <View style={styles.actionButtons}>
           <Button
             title="GENERATE FORMULA"
-            onPress={handleGenerateFormula}
+            onPress={onGenerateFormula}
             style={styles.generateButton}
           />
           <View style={styles.secondaryButtons}>
             <Button
               title="Save"
-              onPress={handleSave}
+              onPress={onSave}
               variant="secondary"
               style={styles.secondaryButton}
             />
             <Button
               title="Email Preview"
-              onPress={handleEmailPreview}
+              onPress={onEmailPreview}
               variant="secondary"
               style={styles.secondaryButton}
             />
@@ -228,28 +236,48 @@ export default function ConsultationScreen() {
       </ScrollView>
     </View>
   );
+}
 
-  if (IS_IPAD) {
-    // Split-screen layout for iPad
-    return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.splitContainer}>
-          <CameraSection />
-          <ControlsSection />
-        </View>
-      </SafeAreaView>
-    );
-  } else {
-    // Stacked layout for iPhone
-    return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.stackedContainer}>
-          <CameraSection />
-          <ControlsSection />
-        </View>
-      </SafeAreaView>
-    );
-  }
+export default function ConsultationScreen() {
+  const navigation = useNavigation();
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedBrand, setSelectedBrand] = useState('Wella');
+  const [selectedColor, setSelectedColor] = useState(mockColors[0]);
+  const [beforeAfterMode, setBeforeAfterMode] = useState<'before' | 'after'>('after');
+
+  const cameraWidth = IS_IPAD ? width * LAYOUT.cameraWidthRatio : width;
+  const controlsWidth = IS_IPAD ? width * LAYOUT.controlsWidthRatio : width;
+
+  const handleColorSelect = (color: ColorItem) => setSelectedColor(color);
+  const handleGenerateFormula = () => navigation.navigate('Formula' as never);
+  const handleSave = () => {};
+  const handleEmailPreview = () => {};
+
+  const containerStyle = IS_IPAD ? styles.splitContainer : styles.stackedContainer;
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={containerStyle}>
+        <CameraSection
+          cameraWidth={cameraWidth}
+          beforeAfterMode={beforeAfterMode}
+          onBeforeAfterChange={setBeforeAfterMode}
+        />
+        <ControlsSection
+          controlsWidth={controlsWidth}
+          selectedColor={selectedColor}
+          selectedCategory={selectedCategory}
+          onCategoryChange={setSelectedCategory}
+          selectedBrand={selectedBrand}
+          onBrandChange={setSelectedBrand}
+          onColorSelect={handleColorSelect}
+          onGenerateFormula={handleGenerateFormula}
+          onSave={handleSave}
+          onEmailPreview={handleEmailPreview}
+        />
+      </View>
+    </SafeAreaView>
+  );
 }
 
 const styles = StyleSheet.create({
