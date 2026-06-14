@@ -14,6 +14,15 @@ android/.gradle/
 *.apk
 *.aab
 
+# iOS
+ios/Pods/
+*.xcworkspace
+!ios/*.xcworkspace
+*.xcuserstate
+
+# Android
+android/local.properties
+
 # Expo
 .expo/
 .expo-shared/
@@ -37,3 +46,9 @@ yarn-error.log*
 
 # Coverage
 coverage/
+
+# Editor settings
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
